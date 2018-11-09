@@ -6,7 +6,12 @@
 },{
 	"title" : "文章列表",
 	"icon" : "icon-text",
-	"href" : "page/news/newsList.html",
+	"href" : "news",
+	"spread" : false
+},{
+	"title" : "员工管理",
+	"icon" : "icon-text",
+	"href" : "users",
 	"spread" : false
 },{
 	"title" : "友情链接",
@@ -27,15 +32,8 @@
 		{
 			"title" : "404页面",
 			"icon" : "&#xe61c;",
-			"href" : "page/404.html",
+			"href" : " /404.html",
 			"spread" : false
-		},
-		{
-			"title" : "登录",
-			"icon" : "&#xe609;",
-			"href" : "page/login/login.html",
-			"spread" : false,
-			"target" : "_blank"
 		}
 	]
 }]

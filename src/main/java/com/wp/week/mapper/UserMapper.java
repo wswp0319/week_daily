@@ -1,10 +1,17 @@
 package com.wp.week.mapper;
 
-import com.wp.week.model.User;
+import com.wp.week.model.UserDto;
 
-/**
- * Created by zl on 2015/8/27.
- */
 public interface UserMapper {
-    public User findUserInfo();
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(UserDto record);
+
+    int insertSelective(UserDto record);
+
+    UserDto selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(UserDto record);
+
+    int updateByPrimaryKey(UserDto record);
 }

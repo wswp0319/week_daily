@@ -1,15 +1,42 @@
 var $,tab,skyconsWeather;
+
+
 layui.config({
 	base : "js/"
 }).use(['bodyTab','form','element','layer','jquery'],function(){
-	var form = layui.form(),
+
+
+    var form = layui.form(),
 		layer = layui.layer,
 		element = layui.element();
 		$ = layui.jquery;
-		tab = layui.bodyTab({
-			openTabNum : "50",  //最大可打开窗口数量
-			url : "json/navs.json" //获取菜单json地址
-		});
+    tab = layui.bodyTab({
+        openTabNum: "50",  //最大可打开窗口数量
+        // url: "json/navs.json" //获取菜单json地址
+        url: $.ajax({
+            type: 'post',
+            url: '/getMenu',
+            dataType: 'json',
+            // data:{uid:uid,rands:Math.random()},
+            success: function (result) {
+                console.log(result.data);
+                var html="<ul class='layui-nav layui-nav-tree'>";
+                $(result.data).each(function(m,n){
+                    if (n['icon'] == "icon-computer") {
+                        html+="<li class='layui-nav-item'><a href='javascript:;' data-url="+n['href']+"><i class='iconfont icon-computer' data-icon='icon-computer'></i><cite>"+n['title']+"</cite></a></li>";
+                    } else if (n['icon'] == "icon-text") {
+                        html+="<li class='layui-nav-item'><a href='javascript:;' data-url="+n['href']+"><i class='iconfont icon-text' data-icon='icon-text'></i><cite>"+n['title']+"</cite></a></li>";
+                    } else {
+                        // html+="<li class='layui-nav-item'><a href='javascript:;' data-url="+n['href']+"><i class='layui-icon' data-icon='&#xe64c;'></i><cite>"+n['title']+"</cite></a></li>";
+                        html+="<li class='layui-nav-item'><a href='javascript:;' data-url="+n['href']+"><i class='layui-icon' data-icon='"+n['icon']+"'>"+n['icon']+"</i><cite>"+n['title']+"</cite></a></li>";
+                    }
+				})
+				html+="</ul>";
+                $("#leftDiv").append(html);
+            }
+        }),
+
+    });
 
 	//更换皮肤
 	function skins(){

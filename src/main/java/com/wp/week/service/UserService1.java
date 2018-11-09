@@ -10,9 +10,15 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class UserService {
+public class UserService1 {
 
     @Autowired
     private UserMapper userMapper;
+
+    public User getUserInfo(){
+
+        User user=null;
+        return user;
+    }
 
 }

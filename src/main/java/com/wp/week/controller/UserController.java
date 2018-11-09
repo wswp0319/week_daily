@@ -2,7 +2,7 @@ package com.wp.week.controller;
 
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wp.week.model.User;
-import com.wp.week.service.UserService;
+import com.wp.week.service.UserService1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class UserController {
 //    private Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
-    private UserService userService;
+    private UserService1 userService;
 
     @RequestMapping("/getUserInfo")
     @ResponseBody
