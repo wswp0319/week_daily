@@ -6,6 +6,10 @@ import java.util.Date;
 public class DailyDto implements Serializable {
     private Integer id;
 
+    private Integer userId;
+
+    private Integer lookRole;
+
     private String workResult;
 
     private String submitContent;
@@ -42,6 +46,22 @@ public class DailyDto implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getLookRole() {
+        return lookRole;
+    }
+
+    public void setLookRole(Integer lookRole) {
+        this.lookRole = lookRole;
     }
 
     public String getWorkResult() {

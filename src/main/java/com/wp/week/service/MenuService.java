@@ -29,6 +29,10 @@ public class MenuService {
         params.put("userId", userId);
         List<MenuDto> menus = menuMapper.getMenusByUid(params);
 
+        for (MenuDto menu : menus) {
+            System.out.println(menu.getCreateTime());
+        }
+        
         return AjaxList.createSuccess("获取成功", menus);
 
     }

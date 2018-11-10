@@ -15,11 +15,11 @@ layui.config({
         // url: "json/navs.json" //获取菜单json地址
         url: $.ajax({
             type: 'post',
-            url: '/getMenu',
+            url: '/getMenus',
             dataType: 'json',
-            // data:{uid:uid,rands:Math.random()},
+            data:{userId:1},
             success: function (result) {
-                console.log(result.data);
+                // console.log(result);
                 var html="<ul class='layui-nav layui-nav-tree'>";
                 $(result.data).each(function(m,n){
                     if (n['icon'] == "icon-computer") {

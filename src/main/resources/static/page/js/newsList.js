@@ -8,7 +8,8 @@ layui.config({
 
 	//加载页面数据
 	var newsData = '';
-	$.get("../../json/newsList.json", function(data){
+	$.get("/getDailys", function(data){
+
 		var newArray = [];
 		//单击首页“待审核文章”加载的信息
 		if($(".top_tab li.layui-this cite",parent.document).text() == "待审核文章"){
@@ -26,7 +27,9 @@ layui.config({
         	newsData = newArray;
         	newsList(newsData);
 		}else{    //正常加载信息
-			newsData = data;
+            // console.log(data);
+            // console.log(data.data);
+			newsData = data.data;
 			if(window.sessionStorage.getItem("addNews")){
 				var addNews = window.sessionStorage.getItem("addNews");
 				newsData = JSON.parse(addNews).concat(newsData);
@@ -98,7 +101,7 @@ layui.config({
 		            	newsList(newsData);
 					}
 				})
-            	
+
                 layer.close(index);
             },2000);
 		}else{
@@ -121,7 +124,7 @@ layui.config({
 						});
 					},500)
 				}
-			})			
+			})
 			layui.layer.full(index);
 		})
 	}).resize();
@@ -223,10 +226,12 @@ layui.config({
 			layer.msg("展示状态修改成功！");
         },2000);
 	})
- 
+
 	//操作
 	$("body").on("click",".news_edit",function(){  //编辑
-		layer.alert('您点击了文章编辑按钮，由于是纯静态页面，所以暂时不存在编辑内容，后期会添加，敬请谅解。。。',{icon:6, title:'文章编辑'});
+		// layer.alert('您点击了文章编辑按钮，由于是纯静态页面，所以暂时不存在编辑内容，后期会添加，敬请谅解。。。',{icon:6, title:'文章编辑'});
+        var _this = $(this);
+        location.href = "/editDaily?dailyId=" + _this.attr("data-id");
 	})
 
 	$("body").on("click",".news_collect",function(){  //收藏.
@@ -240,15 +245,33 @@ layui.config({
 	})
 
 	$("body").on("click",".news_del",function(){  //删除
-		var _this = $(this);
-		layer.confirm('确定删除此信息？',{icon:3, title:'提示信息'},function(index){
-			//_this.parents("tr").remove();
-			for(var i=0;i<newsData.length;i++){
-				if(newsData[i].newsId == _this.attr("data-id")){
-					newsData.splice(i,1);
-					newsList(newsData);
-				}
-			}
+        var _this = $(this);
+        //_this.parents("tr").remove();
+        // console.log(_this.attr("data-id"));
+        layer.confirm('确定删除此信息？',{icon:3, title:'提示信息'},function(index){
+
+            $.ajax({
+                type: 'post',
+                url: '/delOneDaily',
+                dataType: 'json',
+                data: {dailyId:_this.attr("data-id")},
+                success: function (result) {
+                    for(var i=0;i<newsData.length;i++) {
+                        if(newsData[i].id == _this.attr("data-id")) {
+                            // console.log(result);
+                            newsData.splice(i, 1);
+                            newsList(newsData);
+                        }
+                    }
+                }
+                // error: alert()
+            })
+            // for(var i=0;i<newsData.length;i++){
+             //    if(newsData[i].newsId == _this.attr("data-id")){
+			// 		newsData.splice(i,1);
+			// 		newsList(newsData);
+			// 	}
+			// }
 			layer.close(index);
 		});
 	})
@@ -262,29 +285,50 @@ layui.config({
 			}else{
 				currData = that.concat().splice(curr*nums-nums, nums);
 			}
+
 			if(currData.length != 0){
 				for(var i=0;i<currData.length;i++){
+                    // console.log(currData[i].id);
+					var flag = ""
+                    if (+currData[i].claim == 1) {
+                        flag = "checked";
+                    }
 					dataHtml += '<tr>'
+					+'<input type="hidden" name="dailyId" value='+currData[i].id+' >'
 			    	+'<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>'
-			    	+'<td align="left">'+currData[i].newsName+'</td>'
-			    	+'<td>'+currData[i].newsAuthor+'</td>';
-			    	if(currData[i].newsStatus == "待审核"){
-			    		dataHtml += '<td style="color:#f00">'+currData[i].newsStatus+'</td>';
-			    	}else{
-			    		dataHtml += '<td>'+currData[i].newsStatus+'</td>';
-			    	}
-			    	dataHtml += '<td>'+currData[i].newsLook+'</td>'
-			    	+'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+currData[i].isShow+'></td>'
-			    	+'<td>'+currData[i].newsTime+'</td>'
+			    	+'<td align="left">'+currData[i].workResult+'</td>'
+			    	+'<td>'+currData[i].submitContent+'</td>'
+			    	+'<td>'+currData[i].contentDescription+'</td>'
+			    	+'<td>'+currData[i].planStartDate+'</td>'
+			    	+'<td>'+currData[i].planEndDate+'</td>'
+			    	+'<td>'+currData[i].workSchedule+'</td>'
+			    	+'<td>'+currData[i].demoAddress+'</td>'
+			    	// if(currData[i].newsStatus == "待审核"){
+			    	// 	dataHtml += '<td style="color:#f00">'+currData[i].newsStatus+'</td>';
+			    	// }else{
+			    	// 	dataHtml += '<td>'+currData[i].newsStatus+'</td>';
+			    	// }
+					+'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+flag+'></td>'
+
+					// +'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+currData[i].claim+'></td>'
+                    +'<td>'+currData[i].planB+'</td>'
+
+
+			    	+'<td>'+currData[i].submitter+'</td>'
+
+			    	// +'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+currData[i].isShow+'></td>'
+			    	// +'<td>'+currData[i].newsTime+'</td>'
 			    	+'<td>'
-					+  '<a class="layui-btn layui-btn-mini news_edit"><i class="iconfont icon-edit"></i> 编辑</a>'
-					+  '<a class="layui-btn layui-btn-normal layui-btn-mini news_collect"><i class="layui-icon">&#xe600;</i> 收藏</a>'
-					+  '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="'+data[i].newsId+'"><i class="layui-icon">&#xe640;</i> 删除</a>'
+					+  '<a class="layui-btn layui-btn-mini news_edit" data-id="'+currData[i].id+'"><i class="iconfont icon-edit"></i>编辑</a>'
+
+					// +  '<a class="layui-btn layui-btn-normal layui-btn-mini news_collect"><i class="layui-icon">&#xe600;</i> 收藏</a>'
+					// +  '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="'+data[i].newsId+'"><i class="layui-icon">&#xe640;</i> 删除</a>'
+					+  '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="'+currData[i].id+'"><i class="layui-icon">&#xe640;</i> 删除</a>'
 			        +'</td>'
 			    	+'</tr>';
 				}
 			}else{
-				dataHtml = '<tr><td colspan="8">暂无数据</td></tr>';
+				dataHtml = '<tr><td colspan="12">呀,数据居然不见了,请稍后重试一下吧!</td></tr>';
 			}
 		    return dataHtml;
 		}
