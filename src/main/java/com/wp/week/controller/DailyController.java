@@ -59,8 +59,13 @@ public class DailyController {
             @ApiParam(name = "dailyId", value = "id") @RequestParam(required = false) Integer dailyId,
             Model model) {
 
-        System.out.println("*************" + dailyId);
-        model.addAttribute("dailyId", dailyId);
+        DailyDto dailyDto = new DailyDto();
+        dailyDto.setId(dailyId);
+        if (dailyId != null) {
+            dailyDto = dailyService.getDailysById(dailyId);
+        }
+
+        model.addAttribute("dailyDto", dailyDto);
 
         return "page/news/newsAdd";
     }
@@ -93,8 +98,9 @@ public class DailyController {
             @ApiParam(name = "planEndDate", value = "结束时间", required = true) @RequestParam String planEndDate,
             @ApiParam(name = "workSchedule", value = "完成情况", required = true) @RequestParam String workSchedule,
             @ApiParam(name = "demoAddress", value = "演示地址", required = true) @RequestParam String demoAddress,
-            @ApiParam(name = "claim", value = "标准和要求", required = true) @RequestParam Integer claim,
+            @ApiParam(name = "claim", value = "标准和要求") @RequestParam(required = false) String claim,
             @ApiParam(name = "planB", value = "补救措施") @RequestParam(required = false) String planB,
+            @ApiParam(name = "lookRole", value = "查看权限") @RequestParam(required = false) Integer lookRole,
             @ApiParam(name = "remarks", value = "备注", required = true) @RequestParam(required = false) String remarks,
             Model model) {
 
@@ -107,7 +113,8 @@ public class DailyController {
         dailyDto.setPlanEndDate(planEndDate);
         dailyDto.setWorkSchedule(workSchedule);
         dailyDto.setDemoAddress(demoAddress);
-        dailyDto.setClaim(claim);
+        dailyDto.setClaim(claim=="on"?1:0);
+        dailyDto.setLookRole(lookRole);
         dailyDto.setPlanB(planB == null ? "无" : planB);
         dailyDto.setRemarks(remarks == null ? "无" : remarks);
 

@@ -36,6 +36,7 @@ public class DailyService {
 
     /**
      * 新增或修改周报
+     *
      * @param dailyDto
      */
     public void addOrUpdateDaily(DailyDto dailyDto) {
@@ -47,5 +48,9 @@ public class DailyService {
         } else {
             dailyMapper.updateByPrimaryKey(dailyDto);
         }
+    }
+
+    public DailyDto getDailysById(Integer dailyId) {
+        return dailyMapper.selectByPrimaryKey(dailyId);
     }
 }
