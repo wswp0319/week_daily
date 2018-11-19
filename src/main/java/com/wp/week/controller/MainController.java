@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,10 @@ public class MainController {
         System.out.println("---------------------login-------------------------------");
 //        System.out.println(username);
 //        System.out.println(pwd);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("username") == null) {
+            return "page/news/404";
+        }
         return "index";
     }
 
@@ -46,7 +51,13 @@ public class MainController {
         map.put("username", username);
         map.put("password", password);
 
-        return userService.getUserInfo(map);
+        AjaxList ajaxList = userService.getUserInfo(map);
+        if (ajaxList.isSuccess()) {
+            System.out.println("set session value");
+            HttpSession session = request.getSession();
+            session.setAttribute("username",username);
+        }
+        return ajaxList;
     }
 
 
@@ -56,7 +67,7 @@ public class MainController {
 //        model.addAttribute("name", name);
         System.out.println("----**********************goLogin***************************************");
 
-        return "redirect:login.html";
+        return "page/news/404";
     }
 
 
@@ -79,11 +90,12 @@ public class MainController {
         return "page/news/newsList";
     }
 
-    @RequestMapping("/users")
+
+    @RequestMapping("/userlists")
     public String users(
             HttpServletRequest request) {
 //        model.addAttribute("name", name);
-        System.out.println("----***************************users**********************************");
+        System.out.println("----***************************userlists**********************************");
 
 
         return "page/user/allUsers";

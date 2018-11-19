@@ -38,4 +38,20 @@ public class UserController {
 //        }
         return null;
     }
+
+    @RequestMapping("/changePwd")
+    public String changePwd(
+//            @ApiParam(name = "username", value = "姓名", required = true) @RequestParam String username,
+//            @ApiParam(name = "pwd", value = "pwd", required = true) @RequestParam String pwd,
+            HttpServletRequest request) {
+//        System.out.println(username);
+//        System.out.println(pwd);
+//        User user = userService.getUserInfo();
+
+//        if(user!=null){
+//            System.out.println("user.getName():"+user.getName());
+//            logger.info("user.getAge():"+user.getAge());
+//        }
+        return "page/user/changePwd";
+    }
 }
