@@ -42,10 +42,14 @@ layui.config({
             data: {username: username, password: password},
             success: function (data) {
                 if (data.success) {
-                    alert(data.msg);
+                    location.href = "/index";
                 } else {
-                    popup({type:'error',msg:'账户或密码错误！',delay:2000,bg:true,clickDomCancel:true});
+                    // popup({type:'error',msg:'账户或密码错误！',delay:2000,bg:true,clickDomCancel:true});
+                    alert(data.msg);
                 }
+            },
+            error: function (result, status, e) {
+                alert("请求异常，请联系管理员");
             }
         })
 
