@@ -13,11 +13,27 @@
   <sql id="Base_Column_List" >
     id, username, password, dept, rule, update_time, create_time
   </sql>
+  <sql id="SqlClumns" >
+    id id,
+    username username,
+    password password,
+    dept dept,
+    rule rule,
+    update_time updateTime,
+    create_time createTime
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from tb_user
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getUserInfo" resultType="com.wp.week.model.UserDto">
+    select
+    <include refid="SqlClumns"/>
+    from tb_user
+    where username = #{username}
+    and password = #{password}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from tb_user

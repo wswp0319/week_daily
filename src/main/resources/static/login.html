@@ -11,6 +11,7 @@
 	<meta name="format-detection" content="telephone=no">
 	<link rel="stylesheet" href="layui/css/layui.css" media="all" />
 	<link rel="stylesheet" href="css/login.css" media="all" />
+	<link rel="stylesheet" href="css/dialog.css" media="all" />
 </head>
 <body>
 	<video class="video-player" preload="auto" autoplay="autoplay" loop="loop" data-height="1080" data-width="1920" height="1080" width="1920">
@@ -20,7 +21,7 @@
 	<div class="video_mask"></div>
 	<div class="login">
 	    <h1>骏马-管理登录</h1>
-	    <form class="layui-form" action="tables">
+	    <form class="layui-form">
 	    	<div class="layui-form-item">
 				<input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
 		    </div>
@@ -32,10 +33,13 @@
 				<div class="code"><img src="images/code.jpg" width="116" height="36"></div>
 		    </div>
 			<!--<button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>-->
-			<button class="layui-btn login_btn" type="submit" lay-filter="login">登录</button>
+			<!--<button class="layui-btn login_btn" type="submit" lay-filter="login()">登录</button>-->
+			<button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
 		</form>
 	</div>
 	<script type="text/javascript" src="layui/layui.js"></script>
 	<script type="text/javascript" src="page/login/login.js"></script>
+	<script type="text/javascript" src="page/login/dialog.min.js"></script>
+	<script type="text/javascript" src="page/login/zepto.min.js"></script>
 </body>
 </html>

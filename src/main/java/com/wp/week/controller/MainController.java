@@ -2,7 +2,10 @@ package com.wp.week.controller;
 
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wp.week.model.MenuDto;
+import com.wp.week.service.UserService;
+import com.wp.week.service.UserService1;
 import com.wp.week.utils.AjaxList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,35 +21,51 @@ import java.util.Map;
 @Controller
 public class MainController {
 
-    @RequestMapping("/login")
+    @Autowired
+    private UserService userService;
+
+
+    @RequestMapping("/index")
     public String login(
-            @ApiParam(name = "username", value = "用户名", required = true) @RequestParam String username,
-            @ApiParam(name = "pwd", value = "签名", required = true) @RequestParam String pwd,
             HttpServletRequest request) {
 //        model.addAttribute("name", name);
-        System.out.println("----------------------------------------------------");
-        System.out.println(username);
-        System.out.println(pwd);
+        System.out.println("---------------------login-------------------------------");
+//        System.out.println(username);
+//        System.out.println(pwd);
         return "index";
     }
 
-    @RequestMapping("/hello")
-    public String hello(
+    @RequestMapping("/join")
+    @ResponseBody
+    public AjaxList join(
+            @ApiParam(name = "username", value = "用户名", required = true) @RequestParam String username,
+            @ApiParam(name = "password", value = "密码", required = true) @RequestParam String password,
+            HttpServletRequest request) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", username);
+        map.put("password", password);
+
+        return userService.getUserInfo(map);
+    }
+
+
+    @RequestMapping("/goLogin")
+    public String goLogin(
             HttpServletRequest request) {
 //        model.addAttribute("name", name);
-        System.out.println("----*************************************************************");
+        System.out.println("----**********************goLogin***************************************");
 
-
-        return "hello";
+        return "redirect:login.html";
     }
+
 
     @RequestMapping("/tables")
     public String goTables(
+            @ApiParam(name = "username", value = "用户名", required = true) @RequestParam String username,
+            @ApiParam(name = "pwd", value = "密码", required = true) @RequestParam String pwd,
             HttpServletRequest request) {
-//        model.addAttribute("name", name);
-        System.out.println("----*************************************************************");
-
-
+        System.out.println("----*****************************tables********************************");
         return "index";
     }
 
@@ -54,27 +73,17 @@ public class MainController {
     public String news(
             HttpServletRequest request) {
 //        model.addAttribute("name", name);
-        System.out.println("----***************************news**********************************");
+        System.out.println("----***************************news11**********************************");
 
 
         return "page/news/newsList";
-    }
-
-    @RequestMapping("/newsAdd")
-    public String newsAdd(
-            HttpServletRequest request) {
-//        model.addAttribute("name", name);
-        System.out.println("----***************************news**********************************");
-
-
-        return "page/news/newsAdd";
     }
 
     @RequestMapping("/users")
     public String users(
             HttpServletRequest request) {
 //        model.addAttribute("name", name);
-        System.out.println("----***************************news**********************************");
+        System.out.println("----***************************users**********************************");
 
 
         return "page/user/allUsers";

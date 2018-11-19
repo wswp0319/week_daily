@@ -7,6 +7,7 @@ import com.wp.week.utils.AjaxList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,15 +43,28 @@ public class DailyService {
     public void addOrUpdateDaily(DailyDto dailyDto) {
 
         Integer id = dailyDto.getId();
-
+        Date date = new Date();
         if (id == null) {
+            dailyDto.setCreateTime(date);
+            dailyDto.setUpdateTime(date);
             dailyMapper.insert(dailyDto);
         } else {
+            dailyDto.setUpdateTime(date);
             dailyMapper.updateByPrimaryKey(dailyDto);
         }
     }
 
     public DailyDto getDailysById(Integer dailyId) {
         return dailyMapper.selectByPrimaryKey(dailyId);
+    }
+
+    public AjaxList updateClaim(Integer dailyId, Integer claim) {
+
+        DailyDto dailyDto = new DailyDto();
+        dailyDto.setId(dailyId);
+        dailyDto.setClaim(claim);
+        dailyMapper.updateByPrimaryKeySelective(dailyDto);
+
+        return AjaxList.createSuccess("修改成功！");
     }
 }

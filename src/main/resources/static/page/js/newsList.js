@@ -42,68 +42,44 @@ layui.config({
 	//查询
 	$(".search_btn").click(function(){
 		var newArray = [];
-		if($(".search_input").val() != ''){
+        if (($(".start_data").val() != '' && $(".end_data").val() == '') || ($(".start_data").val() == '' && $(".end_data").val() != '')) {
+            layer.msg("请输入需要完整的日期条件");
+            // alert(111);
+            return;
+        }
+
+		if(($(".search_input").val() != '') || ($(".start_data").val() != '' && $(".end_data").val() != '')){
 			var index = layer.msg('查询中，请稍候',{icon: 16,time:false,shade:0.8});
+            var dept = $(".search_input").val();
+            var planStartDate = $(".start_data").val();
+            var planEndDate = $(".end_data").val();
+            // console.log(dept + "          " + sd + "         " + ed);
             setTimeout(function(){
             	$.ajax({
-					url : "../../json/newsList.json",
+					// url : "../../json/newsList.json",
+					url : "/getDailys",
 					type : "get",
 					dataType : "json",
+                    /**
+					 * `plan_start_date` varchar(255) DEFAULT NULL COMMENT '计划开始时间',
+                     `plan_end_date`
+                     */
+                    data:{dept:dept,planStartDate:planStartDate,planEndDate:planEndDate},
 					success : function(data){
-						if(window.sessionStorage.getItem("addNews")){
-							var addNews = window.sessionStorage.getItem("addNews");
-							newsData = JSON.parse(addNews).concat(data);
-						}else{
-							newsData = data;
-						}
-						for(var i=0;i<newsData.length;i++){
-							var newsStr = newsData[i];
-							var selectStr = $(".search_input").val();
-		            		function changeStr(data){
-		            			var dataStr = '';
-		            			var showNum = data.split(eval("/"+selectStr+"/ig")).length - 1;
-		            			if(showNum > 1){
-									for (var j=0;j<showNum;j++) {
-		            					dataStr += data.split(eval("/"+selectStr+"/ig"))[j] + "<i style='color:#03c339;font-weight:bold;'>" + selectStr + "</i>";
-		            				}
-		            				dataStr += data.split(eval("/"+selectStr+"/ig"))[showNum];
-		            				return dataStr;
-		            			}else{
-		            				dataStr = data.split(eval("/"+selectStr+"/ig"))[0] + "<i style='color:#03c339;font-weight:bold;'>" + selectStr + "</i>" + data.split(eval("/"+selectStr+"/ig"))[1];
-		            				return dataStr;
-		            			}
-		            		}
-		            		//文章标题
-		            		if(newsStr.newsName.indexOf(selectStr) > -1){
-			            		newsStr["newsName"] = changeStr(newsStr.newsName);
-		            		}
-		            		//发布人
-		            		if(newsStr.newsAuthor.indexOf(selectStr) > -1){
-			            		newsStr["newsAuthor"] = changeStr(newsStr.newsAuthor);
-		            		}
-		            		//审核状态
-		            		if(newsStr.newsStatus.indexOf(selectStr) > -1){
-			            		newsStr["newsStatus"] = changeStr(newsStr.newsStatus);
-		            		}
-		            		//浏览权限
-		            		if(newsStr.newsLook.indexOf(selectStr) > -1){
-			            		newsStr["newsLook"] = changeStr(newsStr.newsLook);
-		            		}
-		            		//发布时间
-		            		if(newsStr.newsTime.indexOf(selectStr) > -1){
-			            		newsStr["newsTime"] = changeStr(newsStr.newsTime);
-		            		}
-		            		if(newsStr.newsName.indexOf(selectStr)>-1 || newsStr.newsAuthor.indexOf(selectStr)>-1 || newsStr.newsStatus.indexOf(selectStr)>-1 || newsStr.newsLook.indexOf(selectStr)>-1 || newsStr.newsTime.indexOf(selectStr)>-1){
-		            			newArray.push(newsStr);
-		            		}
-		            	}
-		            	newsData = newArray;
-		            	newsList(newsData);
+                        console.log(data);
+                        // console.log(data);
+                        // console.log(data.data);
+                        newsData = data.data;
+                        if(window.sessionStorage.getItem("addNews")){
+                            var addNews = window.sessionStorage.getItem("addNews");
+                            newsData = JSON.parse(addNews).concat(newsData);
+                        }
+                        //执行加载数据的方法
+                        newsList();
 					}
 				})
-
                 layer.close(index);
-            },2000);
+            },500);
 		}else{
 			layer.msg("请输入需要查询的内容");
 		}
@@ -221,10 +197,31 @@ layui.config({
 	//是否展示
 	form.on('switch(isShow)', function(data){
 		var index = layer.msg('修改中，请稍候',{icon: 16,time:false,shade:0.8});
-        setTimeout(function(){
-            layer.close(index);
-			layer.msg("展示状态修改成功！");
-        },2000);
+        console.log(data);
+        console.log(data.elem.value);
+        var dailyId = data.elem.value;
+        var checked = data.elem.checked;
+        var claim = null;
+        if (checked == true) {
+            claim = 1;
+        } else {
+            claim = 0;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: '/updateClaim',
+            dataType: 'json',
+            data:{dailyId:dailyId,claim:claim},
+            success: function (result) {
+                setTimeout(function(){
+                    layer.close(index);
+                    layer.msg(result.msg);
+                },500);
+            }
+        });
+
+
 	})
 
 	//操作
@@ -308,7 +305,7 @@ layui.config({
 			    	// }else{
 			    	// 	dataHtml += '<td>'+currData[i].newsStatus+'</td>';
 			    	// }
-					+'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+flag+'></td>'
+					+'<td><input type="checkbox" name="show" value='+currData[i].id+' lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+flag+'></td>'
 
 					// +'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+currData[i].claim+'></td>'
                     +'<td>'+currData[i].planB+'</td>'

@@ -5,9 +5,11 @@ import com.wp.week.model.DailyDto;
 import com.wp.week.model.MenuDto;
 import com.wp.week.service.DailyService;
 import com.wp.week.utils.AjaxList;
+import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +32,9 @@ public class DailyController {
     @RequestMapping("/getDailys")
     @ResponseBody
     public AjaxList goTables(
+            @ApiParam(name = "dept", value = "分组") @RequestParam(required = false) Integer dept,
+            @ApiParam(name = "planStartDate", value = "开始时间") @RequestParam(required = false) String planStartDate,
+            @ApiParam(name = "planEndDate", value = "结束时间") @RequestParam(required = false) String planEndDate,
             HttpServletRequest request) {
 
         Map<String, Object> map = new HashMap<>();
@@ -37,6 +42,16 @@ public class DailyController {
 
         //管理权限直接匹配查看权限,时间查询==+
         map.put("userId", 1);
+        if (dept != null && dept != -1) {
+            map.put("dept", dept);
+        }
+        if (!StringUtils.isEmpty(planStartDate)) {
+            map.put("planStartDate", planStartDate);
+        }
+        if (!StringUtils.isEmpty(planEndDate)) {
+            map.put("planEndDate", planEndDate);
+        }
+
         AjaxList ajaxList = dailyService.getDailysByRole(map);
 
         return ajaxList;
@@ -113,7 +128,7 @@ public class DailyController {
         dailyDto.setPlanEndDate(planEndDate);
         dailyDto.setWorkSchedule(workSchedule);
         dailyDto.setDemoAddress(demoAddress);
-        dailyDto.setClaim(claim=="on"?1:0);
+        dailyDto.setClaim(claim == "on" ? 1 : 0);
         dailyDto.setLookRole(lookRole);
         dailyDto.setPlanB(planB == null ? "无" : planB);
         dailyDto.setRemarks(remarks == null ? "无" : remarks);
@@ -123,5 +138,16 @@ public class DailyController {
         return "page/news/newsList";
     }
 
+    //    updateClaim
+    @RequestMapping("/updateClaim")
+    @ResponseBody
+    public AjaxList updateClaim(
+            @ApiParam(name = "dailyId", value = "日报id", required = true) @RequestParam Integer dailyId,
+            @ApiParam(name = "claim", value = "合格状态(1:OK,0:NG)", required = true) @RequestParam Integer claim,
+            HttpServletRequest request) {
 
+        AjaxList ajaxList = dailyService.updateClaim(dailyId, claim);
+
+        return ajaxList;
+    }
 }
