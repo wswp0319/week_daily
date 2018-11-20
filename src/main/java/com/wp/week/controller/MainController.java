@@ -3,11 +3,9 @@ package com.wp.week.controller;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wp.week.model.MenuDto;
 import com.wp.week.service.UserService;
-import com.wp.week.service.UserService1;
 import com.wp.week.utils.AjaxList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,10 +31,10 @@ public class MainController {
         System.out.println("---------------------login-------------------------------");
 //        System.out.println(username);
 //        System.out.println(pwd);
-        HttpSession session = request.getSession();
-        if (session.getAttribute("username") == null) {
-            return "page/news/404";
-        }
+//        HttpSession session = request.getSession();
+//        if (session.getAttribute("username") == null) {
+//            return "page/news/404";
+//        }
         return "index";
     }
 
@@ -67,7 +65,7 @@ public class MainController {
 //        model.addAttribute("name", name);
         System.out.println("----**********************goLogin***************************************");
 
-        return "page/news/404";
+        return "redirect:login.html";
     }
 
 

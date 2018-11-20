@@ -14,6 +14,8 @@ public class UserDto implements Serializable {
 
     private Integer rule;
 
+    private Integer status;
+
     private Date updateTime;
 
     private Date createTime;
@@ -58,6 +60,14 @@ public class UserDto implements Serializable {
 
     public void setRule(Integer rule) {
         this.rule = rule;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getUpdateTime() {

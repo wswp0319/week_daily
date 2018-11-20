@@ -15,6 +15,7 @@
 </head>
 <body class="childrenBody">
 	<blockquote class="layui-elem-quote news_search">
+		<form action="/download">
 		<div class="layui-inline">
 			<div class="layui-input-inline">
 				<select name="workSchedule" class="layui-input search_input" lay-search="">
@@ -32,11 +33,11 @@
 		    	<!--<input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">-->
 		    <!--</div>-->
             <div class="layui-input-inline">
-                <input type="text" placeholder="开始时间" class="layui-input start_data" lay-verify="required|date" onclick="layui.laydate({elem:this})">
+                <input type="text" placeholder="开始时间" name="planStartDate" class="layui-input start_data" lay-verify="required|date" onclick="layui.laydate({elem:this})">
             </div>
 			至
             <div class="layui-input-inline">
-                <input type="text" placeholder="结束时间"  class="layui-input end_data" lay-verify="required|date" onclick="layui.laydate({elem:this})">
+                <input type="text" placeholder="结束时间" name="planEndDate" class="layui-input end_data" lay-verify="required|date" onclick="layui.laydate({elem:this})">
             </div>
 		    <a class="layui-btn search_btn">查询</a>
 		</div>
@@ -44,26 +45,31 @@
 			<a class="layui-btn layui-btn-normal newsAdd_btn" href="/editDaily">添加周报</a>
 		</div>
 		<!--<div class="layui-inline">-->
-			<!--<a class="layui-btn recommend" style="background-color:#5FB878">推荐文章</a>-->
-		<!--</div>-->
-		<!--<div class="layui-inline">-->
-			<!--<a class="layui-btn audit_btn">审核文章</a>-->
+		<!--<a class="layui-btn audit_btn">审核文章</a>-->
 		<!--</div>-->
 		<div class="layui-inline">
 			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
 		</div>
+		<div class="layui-inline">
+			<!--<a class="layui-btn recommend" style="background-color:#5FB878" href="">导出周报</a>-->
+			<button class="layui-btn recommend" style="background-color:#5FB878" type="submit">导出周报</button>
+		</div>
+		</form>
 	</blockquote>
 	<div class="layui-form news_list">
 	  	<table class="layui-table">
 		    <colgroup>
-				<col width="50">
-				<col>
-				<col width="9%">
-				<col width="9%">
-				<col width="9%">
-				<col width="9%">
-				<col width="9%">
-				<col width="15%">
+				<!--6-->
+				<COL WIDTH="50">
+				<COL>
+				<COL WIDTH="9%">
+				<COL WIDTH="9%">
+				<COL WIDTH="9%">
+				<COL WIDTH="9%">
+				<COL WIDTH="9%">
+				<COL WIDTH="9%">
+
+				<!--<COL WIDTH="15%">-->
 		    </colgroup>
 		    <thead>
 			<!--<th field="workResult" width="10" sortable="true">工作成果</th>-->

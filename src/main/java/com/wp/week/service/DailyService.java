@@ -67,4 +67,8 @@ public class DailyService {
 
         return AjaxList.createSuccess("修改成功！");
     }
+
+    public List<Map<String, Object>> getDailysExcel(Map<String, Object> map) {
+        return dailyMapper.getDailysExcel(map);
+    }
 }

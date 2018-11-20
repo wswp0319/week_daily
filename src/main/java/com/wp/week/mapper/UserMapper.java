@@ -1,7 +1,9 @@
 package com.wp.week.mapper;
 
 import com.wp.week.model.UserDto;
+import com.wp.week.model.UserVO;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserMapper {
@@ -18,4 +20,8 @@ public interface UserMapper {
     int updateByPrimaryKey(UserDto record);
 
     UserDto getUserInfo(Map<String, Object> map);
+
+    List<UserVO> getUsers();
+
+    UserDto getUserByName(String username);
 }

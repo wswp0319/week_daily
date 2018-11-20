@@ -2,20 +2,27 @@ package com.wp.week.controller;
 
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wp.week.model.DailyDto;
-import com.wp.week.model.MenuDto;
 import com.wp.week.service.DailyService;
 import com.wp.week.utils.AjaxList;
-import org.springframework.beans.NotWritablePropertyException;
+import com.wp.week.utils.DateUtil;
+import com.wp.week.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLConnection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class DailyController {
@@ -57,10 +64,11 @@ public class DailyController {
         return ajaxList;
     }
 
+
     @RequestMapping("/delOneDaily")
     @ResponseBody
     public AjaxList delOneDaily(
-            @ApiParam(name = "dailyId", value = "用户名", required = true) @RequestParam Integer dailyId,
+            @ApiParam(name = "dailyId", value = "id", required = true) @RequestParam Integer dailyId,
             HttpServletRequest request) {
 
         AjaxList ajaxList = dailyService.delOneDaily(dailyId);
@@ -149,5 +157,81 @@ public class DailyController {
         AjaxList ajaxList = dailyService.updateClaim(dailyId, claim);
 
         return ajaxList;
+    }
+
+    @RequestMapping("/download")
+    public void download(
+            @ApiParam(name = "workSchedule", value = "分组") @RequestParam(required = false) Integer workSchedule,
+            @ApiParam(name = "planStartDate", value = "开始时间") @RequestParam(required = false) String planStartDate,
+            @ApiParam(name = "planEndDate", value = "结束时间") @RequestParam(required = false) String planEndDate,
+            HttpServletResponse response,
+            HttpServletRequest request) {
+
+        Map<String, Object> map = new HashMap<>();
+
+
+        //管理权限直接匹配查看权限,时间查询==+
+        map.put("userId", 1);
+        if (workSchedule != null && workSchedule != -1) {
+            map.put("dept", workSchedule);
+        }
+        if (!StringUtils.isEmpty(planStartDate)) {
+            map.put("planStartDate", planStartDate);
+        }
+        if (!StringUtils.isEmpty(planEndDate)) {
+            map.put("planEndDate", planEndDate);
+        }
+
+//        AjaxList ajaxList = dailyService.getDailysByRole(map);
+//        List<DailyDto> dailyDtos = (List<DailyDto>) ajaxList.getData();
+
+
+//        String dept = request.getParameter("dept");
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+
+        String date = DateUtil.getMondayDayStr(new Date()) + "-" + DateUtil.getSaturdayStr(new Date());
+
+        File file = new File("研发部每周工作计划及完成情况" + date + ".xlsx");
+
+//        Map<String, Object> params = new HashMap<>();
+//        if (dept != null) {
+//            params.put("dept", Integer.parseInt(dept));
+//        }
+
+
+//        List<Map<String, Object>> dataList = workResultService.findAll(params);
+
+//        AjaxList ajaxList = dailyService.getDailysByRole(map);
+        List<Map<String, Object>> dataList = dailyService.getDailysExcel(map);
+
+        try {
+            ExcelUtils.writeDataToFile(file, dataList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+        if (mimeType == null) {
+            System.out.println("mimetype is not detectable, will take default");
+            mimeType = "application/octet-stream";
+        }
+
+        System.out.println("mimetype : " + mimeType);
+
+        response.setContentType(mimeType);
+
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(file.getName().getBytes("gb2312"), "ISO8859-1") + "\"");
+
+
+        response.setContentLength((int) file.length());
+
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

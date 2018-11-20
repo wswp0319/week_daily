@@ -19,4 +19,6 @@ public interface DailyMapper {
     int updateByPrimaryKey(DailyDto record);
 
     List<DailyDto> getDailysByRole(Map<String,Object> map);
+
+    List<Map<String, Object>> getDailysExcel(Map<String,Object> map);
 }

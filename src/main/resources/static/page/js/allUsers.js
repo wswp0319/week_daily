@@ -8,8 +8,10 @@ layui.config({
 
 	//加载页面数据
 	var usersData = '';
-	$.get("../../json/usersList.json", function(data){
-		usersData = data;
+	$.get("/getUsers", function(data){
+        console.log(data);
+        console.log(data.data);
+		usersData = data.data;
 		if(window.sessionStorage.getItem("addUser")){
 			var addUser = window.sessionStorage.getItem("addUser");
 			usersData = JSON.parse(addUser).concat(usersData);
@@ -156,19 +158,38 @@ layui.config({
 
 	//操作
 	$("body").on("click",".users_edit",function(){  //编辑
-		layer.alert('您点击了会员编辑按钮，由于是纯静态页面，所以暂时不存在编辑内容，后期会添加，敬请谅解。。。',{icon:6, title:'文章编辑'});
+		// layer.alert('您点击了会员编辑按钮，由于是纯静态页面，所以暂时不存在编辑内容，后期会添加，敬请谅解。。。',{icon:6, title:'文章编辑'});
+        var _this = $(this);
+        location.href = "/addUser?userId=" + _this.attr("data-id");
 	})
+
 
 	$("body").on("click",".users_del",function(){  //删除
 		var _this = $(this);
 		layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
 			//_this.parents("tr").remove();
-			for(var i=0;i<usersData.length;i++){
-				if(usersData[i].usersId == _this.attr("data-id")){
-					usersData.splice(i,1);
-					usersList(usersData);
-				}
-			}
+			// for(var i=0;i<usersData.length;i++){
+			// 	if(usersData[i].usersId == _this.attr("data-id")){
+			// 		usersData.splice(i,1);
+			// 		usersList(usersData);
+			// 	}
+			// }
+            $.ajax({
+                type: 'post',
+                url: '/delOneUser',
+                dataType: 'json',
+                data: {userId:_this.attr("data-id")},
+                success: function (result) {
+                    for(var i=0;i<usersData.length;i++) {
+                        if(usersData[i].id == _this.attr("data-id")) {
+                            // console.log(result);
+                            usersData.splice(i, 1);
+                            usersList(usersData);
+                        }
+                    }
+                }
+                // error: alert()
+            })
 			layer.close(index);
 		});
 	})
@@ -181,21 +202,22 @@ layui.config({
 			if(currData.length != 0){
 				for(var i=0;i<currData.length;i++){
 					dataHtml += '<tr>'
+                    +'<input type="hidden" name="userId" value='+currData[i].id+' >'
 			    	+  '<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>'
-			    	+  '<td>'+currData[i].userName+'</td>'
-			    	+  '<td>'+currData[i].userEmail+'</td>'
-			    	+  '<td>'+currData[i].userSex+'</td>'
-			    	+  '<td>'+currData[i].userGrade+'</td>'
-			    	+  '<td>'+currData[i].userStatus+'</td>'
-			    	+  '<td>'+currData[i].userEndTime+'</td>'
+			    	+  '<td>'+currData[i].username+'</td>'
+			    	+  '<td>'+currData[i].dept+'</td>'
+			    	+  '<td>'+currData[i].rule+'</td>'
+			    	+  '<td>'+currData[i].status+'</td>'
+			    	+  '<td>'+currData[i].updateTime+'</td>'
+			    	// +  '<td>'+currData[i].userEndTime+'</td>'
 			    	+  '<td>'
-					+    '<a class="layui-btn layui-btn-mini users_edit"><i class="iconfont icon-edit"></i> 编辑</a>'
-					+    '<a class="layui-btn layui-btn-danger layui-btn-mini users_del" data-id="'+data[i].usersId+'"><i class="layui-icon">&#xe640;</i> 删除</a>'
+					+    '<a class="layui-btn layui-btn-mini users_edit" data-id="'+currData[i].id+'"><i class="iconfont icon-edit"></i> 编辑</a>'
+					+    '<a class="layui-btn layui-btn-danger layui-btn-mini users_del" data-id="'+data[i].id+'"><i class="layui-icon">&#xe640;</i> 删除</a>'
 			        +  '</td>'
 			    	+'</tr>';
 				}
 			}else{
-				dataHtml = '<tr><td colspan="8">暂无数据</td></tr>';
+				dataHtml = '<tr><td colspan="6">暂无数据</td></tr>';
 			}
 		    return dataHtml;
 		}

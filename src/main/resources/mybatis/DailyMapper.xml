@@ -50,7 +50,21 @@
             order by submitter,update_time desc
         </if>
     </select>
-
+    <select id="getDailysExcel" resultType="map">
+        select
+        <include refid="SqlColumns"/>
+        from tb_daily
+        where 1=1
+        <if test="dept != null">
+            and dept = #{dept}
+        </if>
+        <if test="planStartDate != null">
+            and DATE_FORMAT(create_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{planStartDate},'%Y-%m-%d')
+        </if>
+        <if test="planEndDate != null">
+            and DATE_FORMAT(create_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
+        </if>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_daily
     where id = #{id,jdbcType=INTEGER}

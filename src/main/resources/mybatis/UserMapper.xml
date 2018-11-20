@@ -7,11 +7,12 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="dept" property="dept" jdbcType="INTEGER" />
     <result column="rule" property="rule" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, username, password, dept, rule, update_time, create_time
+    id, username, password, dept, rule,status, update_time, create_time
   </sql>
   <sql id="SqlClumns" >
     id id,
@@ -19,14 +20,51 @@
     password password,
     dept dept,
     rule rule,
+    status status,
     update_time updateTime,
     create_time createTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from tb_user
     where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getUserByName" resultType="com.wp.week.model.UserDto">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user
+        where username = #{username}
+    </select>
+
+  <select id="getUsers" resultType="com.wp.week.model.UserVO">
+    select
+    id id,
+    username username,
+--     password password,
+
+      <!--<option value="1">接口组</option>-->
+      <!--<option value="2">测试&运维组</option>-->
+      <!--<option value="3">后台组</option>-->
+      <!--<option value="4">产品组</option>-->
+      <!--<option value="5">APP组</option>-->
+      <!--<option value="6">特殊组</option>-->
+    case dept
+    when 1 then '接口组'
+    when 2 then '测试&amp;运维组'
+    when 3 then '后台组'
+    when 4 then '产品组'
+    when 5 then 'APP组'
+    when 6 then '特殊组'
+    else '黑户'
+    end dept,
+    if(rule=1,'管理员','普通员工') rule,
+    if(status =1 ,'正常使用','已封号') status,
+    update_time updateTime,
+    create_time createTime
+    from tb_user
+    order by status desc
+--     where status = 1;
   </select>
   <select id="getUserInfo" resultType="com.wp.week.model.UserDto">
     select
@@ -41,10 +79,10 @@
   </delete>
   <insert id="insert" parameterType="com.wp.week.model.UserDto" >
     insert into tb_user (id, username, password, 
-      dept, rule, update_time, 
+      dept, rule,status, update_time,
       create_time)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{dept,jdbcType=INTEGER}, #{rule,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{dept,jdbcType=INTEGER}, #{rule,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},#{updateTime,jdbcType=TIMESTAMP},
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.wp.week.model.UserDto" >
@@ -64,6 +102,9 @@
       </if>
       <if test="rule != null" >
         rule,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="updateTime != null" >
         update_time,
@@ -88,6 +129,9 @@
       <if test="rule != null" >
         #{rule,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -111,6 +155,9 @@
       <if test="rule != null" >
         rule = #{rule,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+          status = #{status,jdbcType=INTEGER},
+      </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -126,6 +173,7 @@
       password = #{password,jdbcType=VARCHAR},
       dept = #{dept,jdbcType=INTEGER},
       rule = #{rule,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
