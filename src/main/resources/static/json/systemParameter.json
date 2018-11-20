@@ -1,10 +1,10 @@
 {
-    "cmsName": "layui后台管理模版",
+    "cmsName": "后台管理模版",
     "version": "v1.0.1",
-    "author": "请叫我马哥",
+    "author": "天妒英才啊",
     "homePage": "page/index.html",
     "server": "windows",
-    "dataBase": "8.00.2039",
+    "dataBase": "MySql5.7",
     "maxUpload": "2M",
     "userRights": "总管理员",
     "description": "这是马哥闲来无事做的一套基于layui的cms模版，纯静态页面，不包含数据库",

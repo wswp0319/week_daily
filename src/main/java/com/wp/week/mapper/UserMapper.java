@@ -19,7 +19,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(UserDto record);
 
-    UserDto getUserInfo(Map<String, Object> map);
+    List<UserDto> getUserInfo(Map<String, Object> map);
 
     List<UserVO> getUsers();
 

@@ -2,10 +2,12 @@ package com.wp.week.controller;
 
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wp.week.model.MenuDto;
+import com.wp.week.model.UserDto;
 import com.wp.week.service.UserService;
 import com.wp.week.utils.AjaxList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,15 +28,18 @@ public class MainController {
 
     @RequestMapping("/index")
     public String login(
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            Model model) {
 //        model.addAttribute("name", name);
         System.out.println("---------------------login-------------------------------");
 //        System.out.println(username);
 //        System.out.println(pwd);
-//        HttpSession session = request.getSession();
-//        if (session.getAttribute("username") == null) {
-//            return "page/news/404";
-//        }
+        HttpSession session = request.getSession();
+        String username = (String)session.getAttribute("username");
+        if ( username== null) {
+            return "redirect:login.html";
+        }
+        model.addAttribute("username", username);
         return "index";
     }
 
@@ -45,15 +50,13 @@ public class MainController {
             @ApiParam(name = "password", value = "密码", required = true) @RequestParam String password,
             HttpServletRequest request) {
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("username", username);
-        map.put("password", password);
-
-        AjaxList ajaxList = userService.getUserInfo(map);
+        AjaxList ajaxList = userService.getUserInfo(username,password);
         if (ajaxList.isSuccess()) {
-            System.out.println("set session value");
+            UserDto userDto = (UserDto) ajaxList.getData();
             HttpSession session = request.getSession();
             session.setAttribute("username",username);
+            session.setAttribute("dept",userDto.getDept());
+            session.setAttribute("rule",userDto.getRule());
         }
         return ajaxList;
     }
@@ -64,6 +67,10 @@ public class MainController {
             HttpServletRequest request) {
 //        model.addAttribute("name", name);
         System.out.println("----**********************goLogin***************************************");
+        HttpSession session = request.getSession();
+        session.removeAttribute("username");
+        session.removeAttribute("dept");
+        session.removeAttribute("rule");
 
         return "redirect:login.html";
     }

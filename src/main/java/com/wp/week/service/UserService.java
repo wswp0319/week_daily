@@ -1,7 +1,6 @@
 package com.wp.week.service;
 
 import com.wp.week.mapper.UserMapper;
-import com.wp.week.model.User;
 import com.wp.week.model.UserDto;
 import com.wp.week.model.UserVO;
 import com.wp.week.utils.AjaxList;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +22,26 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public AjaxList getUserInfo(Map<String, Object> map) {
-        UserDto userInfo = userMapper.getUserInfo(map);
-        if (userInfo != null) {
-            return AjaxList.createSuccess("登陆成功");
+    public AjaxList getUserInfo(String username, String password) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", username);
+        List<UserDto> userDtos = userMapper.getUserInfo(map);
+        if (userDtos != null && userDtos.size() > 0) {
+            if (userDtos.size() > 1) {
+                return AjaxList.createError("登录名重复,请联系管理员");
+            }
+            UserDto userDto = userDtos.get(0);
+            //0：封号
+            if (userDto.getStatus() == 0) {
+                return AjaxList.createError("已被封号,请联系管理员");
+            }
+            if (password.equals(userDto.getPassword())) {
+                return AjaxList.createSuccess("登陆成功",userDto);
+            }
+            return AjaxList.createError("密码错误");
         }
-        return AjaxList.createError("账号或密码错误");
+        return AjaxList.createError("账号不存在");
     }
 
     public AjaxList getUsers() {
@@ -60,7 +74,7 @@ public class UserService {
         Date date = new Date();
         if (id == null) {
             UserDto userByName = userMapper.getUserByName(userDto.getUsername());
-            if (userByName !=null) {
+            if (userByName != null) {
                 return;
             }
             userDto.setPassword("123456");
@@ -77,5 +91,21 @@ public class UserService {
 
         userMapper.deleteByPrimaryKey(userId);
         return AjaxList.createSuccess("删除成功");
+    }
+
+
+    public AjaxList editPwd(String username, String currPwd, String newPwd) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", username);
+        List<UserDto> userDtos = userMapper.getUserInfo(map);
+        UserDto userDto = userDtos.get(0);
+        if (currPwd.equals(userDto.getPassword())) {
+            userDto.setPassword(newPwd);
+            userMapper.updateByPrimaryKeySelective(userDto);
+            return AjaxList.createSuccess("修改密码成功");
+        }
+        return AjaxList.createError("密码错误,请重新输入");
+
     }
 }

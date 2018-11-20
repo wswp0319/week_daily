@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
 	<meta charset="utf-8">
@@ -18,13 +19,14 @@
 		<div class="layui-form-item">
 		    <label class="layui-form-label">用户名</label>
 		    <div class="layui-input-block">
-		    	<input type="text" value="请叫我马哥" disabled class="layui-input layui-disabled">
+		    	<!--<input type="text" value="请叫我马哥" disabled class="layui-input layui-disabled">-->
+		    	<input type="text" id="currName" th:value="${username}" disabled class="layui-input layui-disabled">
 		    </div>
 		</div>
 		<div class="layui-form-item">
 		    <label class="layui-form-label">旧密码</label>
 		    <div class="layui-input-block">
-		    	<input type="password" value="" placeholder="请输入旧密码" lay-verify="required|oldPwd" class="layui-input pwd">
+		    	<input type="password" value="" placeholder="请输入旧密码" lay-verify="required|oldPwd" id="currPwd" class="layui-input pwd">
 		    </div>
 		</div>
 		<div class="layui-form-item">

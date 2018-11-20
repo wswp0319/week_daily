@@ -45,7 +45,7 @@ layui.config({
                     location.href = "/index";
                 } else {
                     // popup({type:'error',msg:'账户或密码错误！',delay:2000,bg:true,clickDomCancel:true});
-                    alert(data.msg);
+                    layer.msg(data.msg);
                 }
             },
             error: function (result, status, e) {

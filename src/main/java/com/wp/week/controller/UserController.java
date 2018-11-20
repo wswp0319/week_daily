@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by zl on 2015/8/27.
@@ -41,12 +42,32 @@ public class UserController {
 //            logger.info("user.getAge():"+user.getAge());
 //        }
         return null;
+
     }
+
 
     @RequestMapping("/changePwd")
     public String changePwd(
-            HttpServletRequest request) {
+            HttpServletRequest request,
+            Model model) {
+
+        HttpSession session = request.getSession();
+        model.addAttribute("username",session.getAttribute("username"));   //
+
         return "page/user/changePwd";
+    }
+
+    //username: username,currPwd:currPwd, newPwd: newPwd
+    @RequestMapping("/editPwd")
+    @ResponseBody
+    public AjaxList editPwd(
+            @ApiParam(name = "username", value = "username", required = true) @RequestParam String username,
+            @ApiParam(name = "currPwd", value = "currPwd", required = true) @RequestParam String currPwd,
+            @ApiParam(name = "newPwd", value = "newPwd", required = true) @RequestParam String newPwd,
+            HttpServletRequest request) {
+
+        AjaxList ajaxList = userService.editPwd(username, currPwd, newPwd);
+        return ajaxList;
     }
 
     @RequestMapping("/userInfo")
@@ -108,6 +129,7 @@ public class UserController {
 
         return "page/user/allUsers";
     }
+
     @RequestMapping("/delOneUser")
     @ResponseBody
     public AjaxList delOneUser(
