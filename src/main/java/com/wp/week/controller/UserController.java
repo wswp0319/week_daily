@@ -1,7 +1,6 @@
 package com.wp.week.controller;
 
 import com.wordnik.swagger.annotations.ApiParam;
-import com.wp.week.model.DailyDto;
 import com.wp.week.model.User;
 import com.wp.week.model.UserDto;
 import com.wp.week.service.UserService;
@@ -22,29 +21,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserController {
 
-//    private Logger logger = Logger.getLogger(UserController.class);
-
     @Autowired
     private UserService userService;
-
-    @RequestMapping("/getUserInfo")
-    @ResponseBody
-    public User getUserInfo(
-            @ApiParam(name = "username", value = "姓名", required = true) @RequestParam String username,
-            @ApiParam(name = "pwd", value = "pwd", required = true) @RequestParam String pwd,
-            HttpServletRequest request) {
-        System.out.println(username);
-        System.out.println(pwd);
-//        User user = userService.getUserInfo();
-
-//        if(user!=null){
-//            System.out.println("user.getName():"+user.getName());
-//            logger.info("user.getAge():"+user.getAge());
-//        }
-        return null;
-
-    }
-
 
     @RequestMapping("/changePwd")
     public String changePwd(
@@ -52,12 +30,11 @@ public class UserController {
             Model model) {
 
         HttpSession session = request.getSession();
-        model.addAttribute("username",session.getAttribute("username"));   //
+        model.addAttribute("username", session.getAttribute("username"));   //
 
         return "page/user/changePwd";
     }
 
-    //username: username,currPwd:currPwd, newPwd: newPwd
     @RequestMapping("/editPwd")
     @ResponseBody
     public AjaxList editPwd(
@@ -76,18 +53,23 @@ public class UserController {
         return "page/user/userInfo";
     }
 
-//    @RequestMapping("/addUser")
-//    public String addUser(
-//            HttpServletRequest request) {
-//        return "page/user/addUser";
-//    }
-
     @RequestMapping("/getUsers")
     @ResponseBody
     public AjaxList getUsers(
             HttpServletRequest request) {
 
         AjaxList ajaxList = userService.getUsers();
+
+        return ajaxList;
+    }
+
+    @RequestMapping("/resetUserPwd")
+    @ResponseBody
+    public AjaxList resetUserPwd(
+            @ApiParam(name = "userId", value = "id", required = true) @RequestParam Integer userId,
+            HttpServletRequest request) {
+
+        AjaxList ajaxList = userService.resetUserPwd(userId);
 
         return ajaxList;
     }
@@ -110,7 +92,6 @@ public class UserController {
 
     @RequestMapping("/addOrUpdateUser")
     public String addOrUpdateUser(
-            //userId=&dept=1&userGrade=1&userStatus=1
             @ApiParam(name = "userId", value = "userId") @RequestParam(required = false) Integer userId,
             @ApiParam(name = "username", value = "username", required = true) @RequestParam String username,
             @ApiParam(name = "dept", value = "dept", required = true) @RequestParam Integer dept,

@@ -16,21 +16,26 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="getMenusByUid" resultType="com.wp.week.model.MenuDto">
-    select
-    m.id,
-    m.title,
-    m.icon,
-    m.href,
-    m.create_time createTime
-    from tb_user u
-    LEFT JOIN tb_user_role ur on u.id = ur.user_id
-    LEFT JOIN tb_role r on ur.role_id = r.id
-    LEFT JOIN tb_role_menu rm on r.id = rm.role_id
-    LEFT JOIN tb_menu m on rm.menu_id = m.id
-    where u.rule = #{rule} and m.title is not null
-    GROUP BY m.href
-    order BY m.id
-  </select>
+        select
+        m.id,
+        m.title,
+        m.icon,
+        m.href,
+        m.create_time createTime
+        from tb_user u
+        LEFT JOIN tb_user_role ur on u.id = ur.user_id
+        LEFT JOIN tb_role r on ur.role_id = r.id
+        LEFT JOIN tb_role_menu rm on r.id = rm.role_id
+        LEFT JOIN tb_menu m on rm.menu_id = m.id
+        where 1 = 1
+        <if test="rule == 1">
+            and u.id = 1
+        </if>
+        <if test="rule == 2">
+            and u.id = 2
+        </if>
+        order by m.id
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_menu
     where id = #{id,jdbcType=INTEGER}

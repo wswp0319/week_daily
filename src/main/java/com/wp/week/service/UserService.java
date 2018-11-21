@@ -3,6 +3,7 @@ package com.wp.week.service;
 import com.wp.week.mapper.UserMapper;
 import com.wp.week.model.UserDto;
 import com.wp.week.model.UserVO;
+import com.wp.week.utils.AESUtils;
 import com.wp.week.utils.AjaxList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,9 @@ public class UserService {
             if (userDto.getStatus() == 0) {
                 return AjaxList.createError("已被封号,请联系管理员");
             }
-            if (password.equals(userDto.getPassword())) {
+
+            String encryptPwd = AESUtils.encrypt(password);
+            if (encryptPwd.equals(userDto.getPassword())) {
                 return AjaxList.createSuccess("登陆成功", userDto);
             }
             return AjaxList.createError("密码错误");
@@ -58,18 +61,7 @@ public class UserService {
     }
 
     public void addOrUpdateUser(UserDto userDto) {
-        /**
-         *         Integer id = dailyDto.getId();
-         *         Date date = new Date();
-         *         if (id == null) {
-         *             dailyDto.setCreateTime(date);
-         *             dailyDto.setUpdateTime(date);
-         *             dailyMapper.insert(dailyDto);
-         *         } else {
-         *             dailyDto.setUpdateTime(date);
-         *             dailyMapper.updateByPrimaryKey(dailyDto);
-         *         }
-         */
+
         Integer id = userDto.getId();
         Date date = new Date();
         if (id == null) {
@@ -77,7 +69,10 @@ public class UserService {
             if (userByName != null) {
                 return;
             }
-            userDto.setPassword("123456");
+
+            String encryptPwd = AESUtils.encrypt("123456");
+            userDto.setPassword(encryptPwd);
+
             userDto.setCreateTime(date);
             userDto.setUpdateTime(date);
             userMapper.insert(userDto);
@@ -100,17 +95,28 @@ public class UserService {
         map.put("username", username);
         List<UserDto> userDtos = userMapper.getUserInfo(map);
         UserDto userDto = userDtos.get(0);
-        if (currPwd.equals(userDto.getPassword())) {
-            userDto.setPassword(newPwd);
+
+        String currentPwd = AESUtils.encrypt(currPwd);
+
+        if (currentPwd.equals(userDto.getPassword())) {
+            userDto.setPassword(AESUtils.encrypt(newPwd));
             userMapper.updateByPrimaryKeySelective(userDto);
             return AjaxList.createSuccess("修改密码成功");
         }
-        return AjaxList.createError("密码错误,请重新输入");
+        return AjaxList.createError("原密码错误,请重新输入");
 
     }
 
 
     public UserDto geUserByName(String username) {
         return userMapper.getUserByName(username);
+    }
+
+    public AjaxList resetUserPwd(Integer userId) {
+
+        UserDto userDto = userMapper.selectByPrimaryKey(userId);
+        userDto.setPassword(AESUtils.encrypt("123456"));
+        userMapper.updateByPrimaryKey(userDto);
+        return AjaxList.createSuccess("密码重置成功");
     }
 }

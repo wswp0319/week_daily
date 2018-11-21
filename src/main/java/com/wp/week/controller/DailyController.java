@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URLConnection;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,7 +54,6 @@ public class DailyController {
         Integer rule = (Integer) session.getAttribute("rule");
         String username = (String) session.getAttribute("username");
 
-        //管理权限直接匹配查看权限,时间查询==+
         map.put("rule", rule);
         map.put("username", username);
         if (dept != null && dept != -1) {
@@ -102,24 +104,7 @@ public class DailyController {
         return "page/news/newsAdd";
     }
 
-    /**
-     * id   id,
-     * work_result   workResult,
-     * submit_content   submitContent,
-     * content_description   contentDescription,
-     * plan_start_date   planStartDate,
-     * plan_end_date   planEndDate,
-     * work_schedule   workSchedule,
-     * demo_address   demoAddress,
-     * claim   claim,
-     * plan_b   planB,
-     * submitter   submitter,
-     * remarks   remarks,
-     * <p>
-     * update_time   updateTime,
-     * create_time   createTime
-     */
-    //add or update
+
     @RequestMapping("/addOrUpdateDaily")
     public String addOrUpdateDaily(
             @ApiParam(name = "dailyId", value = "id") @RequestParam(required = false) Integer dailyId,
@@ -151,7 +136,6 @@ public class DailyController {
         dailyDto.setPlanEndDate(planEndDate);
         dailyDto.setWorkSchedule(workSchedule);
         dailyDto.setDemoAddress(demoAddress);
-//        System.out.println(claim.equals("on"));
         dailyDto.setClaim("on".equals(claim) ? 1 : 0);
         dailyDto.setLookRole(lookRole);
         dailyDto.setPlanB(planB == null ? "无" : planB);
@@ -190,7 +174,6 @@ public class DailyController {
         String username = (String) session.getAttribute("username");
 
         AjaxList ajaxList = dailyService.canEdit(dailyId, username);
-//        AjaxList ajaxList = AjaxList.createError("11111");
         return ajaxList;
     }
 
@@ -221,26 +204,12 @@ public class DailyController {
             map.put("planEndDate", planEndDate);
         }
 
-//        AjaxList ajaxList = dailyService.getDailysByRole(map);
-//        List<DailyDto> dailyDtos = (List<DailyDto>) ajaxList.getData();
-
-
-//        String dept = request.getParameter("dept");
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 
         String date = DateUtil.getMondayDayStr(new Date()) + "-" + DateUtil.getSaturdayStr(new Date());
 
         File file = new File("研发部每周工作计划及完成情况" + date + ".xlsx");
 
-//        Map<String, Object> params = new HashMap<>();
-//        if (dept != null) {
-//            params.put("dept", Integer.parseInt(dept));
-//        }
-
-
-//        List<Map<String, Object>> dataList = workResultService.findAll(params);
-
-//        AjaxList ajaxList = dailyService.getDailysByRole(map);
         List<Map<String, Object>> dataList = dailyService.getDailysExcel(map);
 
         try {

@@ -163,8 +163,63 @@ layui.config({
         location.href = "/addUser?userId=" + _this.attr("data-id");
 	})
 
+    //操作
+    $("body").on("click",".msg_collect",function(){  //收藏
+        var _this = $(this);
+        layer.confirm('确定重置该员工密码？',{icon:3, title:'提示信息'},function(index) {
 
-	$("body").on("click",".users_del",function(){  //删除
+            $.ajax({
+                // url : "../../json/newsList.json",
+                url: "/resetUserPwd",
+                type: "post",
+                dataType: "json",
+                data: {userId: _this.attr("data-id")},
+                success: function (data) {
+                    layer.msg(data.msg);
+                },
+                error: function (result, status, e) {
+                    alert("请求异常，请联系管理员");
+                }
+            });
+            //_this.parents("tr").remove();
+            // for(var i=0;i<usersData.length;i++){
+            // 	if(usersData[i].usersId == _this.attr("data-id")){
+            // 		usersData.splice(i,1);
+            // 		usersList(usersData);
+            // 	}
+            // }
+            //     $.ajax({
+            //         type: 'post',
+            //         url: '/resetUserPwd',
+            //         dataType: 'json',
+            //         data: {userId:_this.attr("data-id")},
+            //         success: function (result) {
+            //             for(var i=0;i<usersData.length;i++) {
+            //                 if(usersData[i].id == _this.attr("data-id")) {
+            //                     // console.log(result);
+            //                     usersData.splice(i, 1);
+            //                     usersList(usersData);
+            //                 }
+            //             }
+            //         }
+            //         // error: alert()
+            //     })
+            //     layer.close(index);
+            // });
+
+            // if($(this).text().indexOf("已收藏") > 0){
+            //         //     layer.msg("取消收藏成功！");
+            //         //     $(this).html("<i class='layui-icon'>&#xe600;</i> 收藏");
+            //         // }else{
+            //         //     layer.msg("收藏成功！");
+            //         //     $(this).html("<i class='iconfont icon-star'></i> 已收藏");
+            //         // }
+
+    })
+    })
+
+
+    $("body").on("click",".users_del",function(){  //删除
 		var _this = $(this);
 		layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
 			//_this.parents("tr").remove();
@@ -178,19 +233,15 @@ layui.config({
                 type: 'post',
                 url: '/delOneUser',
                 dataType: 'json',
-                data: {userId:_this.attr("data-id")},
+                data: {userId: _this.attr("data-id")},
                 success: function (result) {
-                    for(var i=0;i<usersData.length;i++) {
-                        if(usersData[i].id == _this.attr("data-id")) {
-                            // console.log(result);
-                            usersData.splice(i, 1);
-                            usersList(usersData);
-                        }
-                    }
+                    console.log("*****************");
+                    layer.msg(result.msg);
+                    return;
                 }
                 // error: alert()
-            })
-			layer.close(index);
+            });
+			// layer.close(index);
 		});
 	})
 
@@ -213,6 +264,7 @@ layui.config({
 			    	+  '<td>'
 					+    '<a class="layui-btn layui-btn-mini users_edit" data-id="'+currData[i].id+'"><i class="iconfont icon-edit"></i> 编辑</a>'
 					+    '<a class="layui-btn layui-btn-danger layui-btn-mini users_del" data-id="'+data[i].id+'"><i class="layui-icon">&#xe640;</i> 删除</a>'
+					+    '<a class="layui-btn layui-btn-mini layui-btn-normal msg_collect" data-id="'+data[i].id+'"><i class="layui-icon">&#xe600;</i> 重置密码</a>'
 			        +  '</td>'
 			    	+'</tr>';
 				}
