@@ -18,7 +18,6 @@
       plan_b   planB,
       submitter   submitter,
       remarks   remarks,
-      dept   dept,
       update_time   updateTime,
       create_time   createTime
   </sql>
@@ -30,6 +29,24 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="getDailysByRole" resultType="com.wp.week.model.DailyDto">
+        SELECT 	id id,
+        userId ,
+        dept ,
+        lookRole,
+        workResult,
+        submitContent,
+        contentDescription,
+        planStartDate,
+        planEndDate,
+        workSchedule,
+        demoAddress,
+        claim,
+        planB,
+        submitter,
+        remarks,
+        updateTime,
+        createTime from
+        (
         select
         <include refid="SqlColumns"/>
         from tb_daily
@@ -38,19 +55,59 @@
             and dept = #{dept}
         </if>
         <if test="planStartDate != null">
-            and DATE_FORMAT(create_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{planStartDate},'%Y-%m-%d')
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &gt;= DATE_FORMAT(#{planStartDate},'%Y-%m-%d')
         </if>
         <if test="planEndDate != null">
-            and DATE_FORMAT(create_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
         </if>
-        <if test="userId != 1">
-            and look_role != 1 order by submitter,update_time desc
+        <if test="rule != 1">
+            and look_role != 1 order by submitter,update_time desc) dd
         </if>
-        <if test="userId == 1">
-            order by submitter,update_time desc
+        <if test="rule == 1">
+            order by submitter,update_time desc)dd
         </if>
+
+        UNION
+        (
+        select
+        <include refid="SqlColumns"/>
+        from tb_daily
+        where 1=1
+        <if test="dept != null">
+            and dept = #{dept}
+        </if>
+        <if test="planStartDate != null">
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &gt;= DATE_FORMAT(#{planStartDate},'%Y-%m-%d')
+        </if>
+        <if test="planEndDate != null">
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
+        </if>
+        and #{username}= submitter
+
+        )ORDER BY
+        submitter,
+        updateTime DESC
     </select>
     <select id="getDailysExcel" resultType="map">
+
+        SELECT 	id id,
+        userId ,
+        dept ,
+        lookRole,
+        workResult,
+        submitContent,
+        contentDescription,
+        planStartDate,
+        planEndDate,
+        workSchedule,
+        demoAddress,
+        claim,
+        planB,
+        submitter,
+        remarks,
+        updateTime,
+        createTime from
+        (
         select
         <include refid="SqlColumns"/>
         from tb_daily
@@ -59,11 +116,37 @@
             and dept = #{dept}
         </if>
         <if test="planStartDate != null">
-            and DATE_FORMAT(create_time,'%Y-%m-%d') &gt;= DATE_FORMAT(#{planStartDate},'%Y-%m-%d')
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &gt;= DATE_FORMAT(#{planStartDate},'%Y-%m-%d')
         </if>
         <if test="planEndDate != null">
-            and DATE_FORMAT(create_time,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
         </if>
+        <if test="rule != 1">
+            and look_role != 1 order by submitter,update_time desc) dd
+        </if>
+        <if test="rule == 1">
+            order by submitter,update_time desc)dd
+        </if>
+        UNION
+        (
+        select
+        <include refid="SqlColumns"/>
+        from tb_daily
+        where 1=1
+        <if test="dept != null">
+            and dept = #{dept}
+        </if>
+        <if test="planStartDate != null">
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &gt;= DATE_FORMAT(#{planStartDate},'%Y-%m-%d')
+        </if>
+        <if test="planEndDate != null">
+            and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
+        </if>
+        and #{username}= submitter
+        )ORDER BY
+        submitter,
+        updateTime DESC
+
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_daily

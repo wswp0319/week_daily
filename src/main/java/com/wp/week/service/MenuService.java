@@ -23,15 +23,15 @@ public class MenuService {
     private MenuMapper menuMapper;
 
 
-    public AjaxList getMenusByUid(Integer userId) {
+    public AjaxList getMenusByUid(Integer rule) {
 
         Map<String, Object> params = new HashMap<>();
-        params.put("userId", userId);
+        params.put("rule", rule);
         List<MenuDto> menus = menuMapper.getMenusByUid(params);
 
-        for (MenuDto menu : menus) {
-            System.out.println(menu.getCreateTime());
-        }
+//        for (MenuDto menu : menus) {
+//            System.out.println(menu.getCreateTime());
+//        }
         
         return AjaxList.createSuccess("获取成功", menus);
 

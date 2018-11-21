@@ -7,8 +7,8 @@
     "dataBase": "MySql5.7",
     "maxUpload": "2M",
     "userRights": "总管理员",
-    "description": "这是马哥闲来无事做的一套基于layui的cms模版，纯静态页面，不包含数据库",
-    "powerby": "copyright @2017 请叫我马哥",
+    "description": "周报系统",
+    "powerby": "环球名车&&环球出行 @2018 天妒英才啊",
     "record": "京ICP备14040xxx号-1",
-    "keywords": "layui，马哥，cms，模版"
+    "keywords": "springboot，thymeleaf，html5，layui"
 }

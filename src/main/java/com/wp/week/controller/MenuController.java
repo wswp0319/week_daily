@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,11 @@ public class MenuController {
     @RequestMapping("/getMenus")
     @ResponseBody
     public AjaxList getMenu(
-            @ApiParam(name = "userId", value = "用户id", required = true) @RequestParam Integer userId,
+//            @ApiParam(name = "userId", value = "用户id", required = true) @RequestParam Integer userId,
             HttpServletRequest request) {
-
-        return menuService.getMenusByUid(userId);
+        HttpSession session = request.getSession();
+        Integer rule = (Integer) session.getAttribute("rule");
+        return menuService.getMenusByUid(rule);
 
     }
 }

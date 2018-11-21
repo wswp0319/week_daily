@@ -37,7 +37,7 @@ public class UserService {
                 return AjaxList.createError("已被封号,请联系管理员");
             }
             if (password.equals(userDto.getPassword())) {
-                return AjaxList.createSuccess("登陆成功",userDto);
+                return AjaxList.createSuccess("登陆成功", userDto);
             }
             return AjaxList.createError("密码错误");
         }
@@ -107,5 +107,10 @@ public class UserService {
         }
         return AjaxList.createError("密码错误,请重新输入");
 
+    }
+
+
+    public UserDto geUserByName(String username) {
+        return userMapper.getUserByName(username);
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.Date;
@@ -46,12 +47,17 @@ public class DailyController {
 
         Map<String, Object> map = new HashMap<>();
 
+        HttpSession session = request.getSession();
+        Integer rule = (Integer) session.getAttribute("rule");
+        String username = (String) session.getAttribute("username");
 
         //管理权限直接匹配查看权限,时间查询==+
-        map.put("userId", 1);
+        map.put("rule", rule);
+        map.put("username", username);
         if (dept != null && dept != -1) {
             map.put("dept", dept);
         }
+
         if (!StringUtils.isEmpty(planStartDate)) {
             map.put("planStartDate", planStartDate);
         }
@@ -71,7 +77,10 @@ public class DailyController {
             @ApiParam(name = "dailyId", value = "id", required = true) @RequestParam Integer dailyId,
             HttpServletRequest request) {
 
-        AjaxList ajaxList = dailyService.delOneDaily(dailyId);
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+
+        AjaxList ajaxList = dailyService.delOneDaily(dailyId, username);
 
         return ajaxList;
     }
@@ -125,7 +134,13 @@ public class DailyController {
             @ApiParam(name = "planB", value = "补救措施") @RequestParam(required = false) String planB,
             @ApiParam(name = "lookRole", value = "查看权限") @RequestParam(required = false) Integer lookRole,
             @ApiParam(name = "remarks", value = "备注", required = true) @RequestParam(required = false) String remarks,
+            HttpServletRequest request,
             Model model) {
+        HttpSession session = request.getSession();
+        Integer dept = (Integer) session.getAttribute("dept");
+        String username = (String) session.getAttribute("username");
+        Integer userId = (Integer) session.getAttribute("userId");
+
 
         DailyDto dailyDto = new DailyDto();
         dailyDto.setId(dailyId);
@@ -136,10 +151,15 @@ public class DailyController {
         dailyDto.setPlanEndDate(planEndDate);
         dailyDto.setWorkSchedule(workSchedule);
         dailyDto.setDemoAddress(demoAddress);
-        dailyDto.setClaim(claim == "on" ? 1 : 0);
+//        System.out.println(claim.equals("on"));
+        dailyDto.setClaim("on".equals(claim) ? 1 : 0);
         dailyDto.setLookRole(lookRole);
         dailyDto.setPlanB(planB == null ? "无" : planB);
         dailyDto.setRemarks(remarks == null ? "无" : remarks);
+
+        dailyDto.setUserId(userId);
+        dailyDto.setSubmitter(username);
+        dailyDto.setDept(dept);
 
         dailyService.addOrUpdateDaily(dailyDto);
 
@@ -159,6 +179,21 @@ public class DailyController {
         return ajaxList;
     }
 
+    //    updateClaim
+    @RequestMapping("/canEdit")
+    @ResponseBody
+    public AjaxList canEdit(
+            @ApiParam(name = "dailyId", value = "日报id", required = true) @RequestParam Integer dailyId,
+            HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+
+        AjaxList ajaxList = dailyService.canEdit(dailyId, username);
+//        AjaxList ajaxList = AjaxList.createError("11111");
+        return ajaxList;
+    }
+
     @RequestMapping("/download")
     public void download(
             @ApiParam(name = "workSchedule", value = "分组") @RequestParam(required = false) Integer workSchedule,
@@ -169,9 +204,13 @@ public class DailyController {
 
         Map<String, Object> map = new HashMap<>();
 
+        HttpSession session = request.getSession();
+        Integer rule = (Integer) session.getAttribute("rule");
+        String username = (String) session.getAttribute("username");
 
         //管理权限直接匹配查看权限,时间查询==+
-        map.put("userId", 1);
+        map.put("rule", rule);
+        map.put("username", username);
         if (workSchedule != null && workSchedule != -1) {
             map.put("dept", workSchedule);
         }
@@ -224,11 +263,11 @@ public class DailyController {
             response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(file.getName().getBytes("gb2312"), "ISO8859-1") + "\"");
 
 
-        response.setContentLength((int) file.length());
+            response.setContentLength((int) file.length());
 
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 
-        FileCopyUtils.copy(inputStream, response.getOutputStream());
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
         } catch (Exception e) {
             e.printStackTrace();
         }

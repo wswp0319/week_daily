@@ -21,4 +21,5 @@ public interface DailyMapper {
     List<DailyDto> getDailysByRole(Map<String,Object> map);
 
     List<Map<String, Object>> getDailysExcel(Map<String,Object> map);
+
 }

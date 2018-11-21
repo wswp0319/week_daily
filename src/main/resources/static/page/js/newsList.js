@@ -266,13 +266,32 @@ layui.config({
         });
 
 
-    })
+    });
 
     //操作
     $("body").on("click", ".news_edit", function () {  //编辑
         // layer.alert('您点击了文章编辑按钮，由于是纯静态页面，所以暂时不存在编辑内容，后期会添加，敬请谅解。。。',{icon:6, title:'文章编辑'});
+
+
+
         var _this = $(this);
-        location.href = "/editDaily?dailyId=" + _this.attr("data-id");
+        console.log("--------------");
+        $.ajax({
+            type: 'get',
+            url: '/canEdit',
+            dataType: 'json',
+            async: false,
+            data: {dailyId: _this.attr("data-id")},
+            success: function (result) {
+                if (!result.success) {
+                    layer.msg(result.msg);
+                    return;
+                } else {
+                    location.href = "/editDaily?dailyId=" + _this.attr("data-id");
+                }
+            }
+        });
+
     })
 
     $("body").on("click", ".news_collect", function () {  //收藏.
@@ -297,6 +316,14 @@ layui.config({
                 dataType: 'json',
                 data: {dailyId: _this.attr("data-id")},
                 success: function (result) {
+                    if (!result.success) {
+                        layer.msg(result.msg);
+                        return;
+                    }
+                    // if (result != sessionStorage.) {
+                    //     layer.msg("不能删除他人记录");
+                    //     return;
+                    // }
                     for (var i = 0; i < newsData.length; i++) {
                         if (newsData[i].id == _this.attr("data-id")) {
                             // console.log(result);

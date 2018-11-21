@@ -57,6 +57,7 @@ public class MainController {
             session.setAttribute("username",username);
             session.setAttribute("dept",userDto.getDept());
             session.setAttribute("rule",userDto.getRule());
+            session.setAttribute("userId",userDto.getId());
         }
         return ajaxList;
     }
