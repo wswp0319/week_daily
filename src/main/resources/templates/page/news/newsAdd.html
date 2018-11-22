@@ -27,12 +27,6 @@
 				<label class="layui-form-label">标准要求</label>
 				<div class="layui-input-block">
 					<input checked="checked" type="checkbox" name="claim" class="tuijian" title="合格">
-					<!--<input type="checkbox" name="shenhe" class="newsStatus" title="进度">-->
-
-					<!--<input type="checkbox" name="show" class="isShow" title="展示">-->
-					<!--<input type="checkbox" name="tuijian" class="tuijian" title="推荐">-->
-					<!--<input type="checkbox" name="shenhe" class="newsStatus" title="审核">-->
-					<!--<input type="checkbox" name="show" class="isShow" title="展示">-->
 					<div class="layui-input-inline">
 						<select name="workSchedule" lay-verify="required" lay-search="">
 							<option value="100%">100%</option>
@@ -50,17 +44,7 @@
 				</div>
 
 			</div>
-			<!--<div class="layui-inline">		-->
-				<!--<label class="layui-form-label">文章作者</label>-->
-				<!--<div class="layui-input-inline">-->
-					<!--<input type="text" class="layui-input newsAuthor" lay-verify="required" placeholder="请输入文章作者">-->
-				<!--</div>-->
-			<!--</div>-->
 
-
-			<!--过程成果或演示地址-->
-			<!--未达标补救措施-->
-			<!--备注-->
 		</div>
 		<div class="layui-form-item">
 		<div class="layui-inline">
@@ -83,8 +67,6 @@
 				<select name="lookRole" class="newsLook" lay-filter="browseLook">
 					<option value="2">对所有人开放</option>
 					<option value="1">对管理员开放</option>
-					<!--<option value="0">开放浏览</option>-->
-					<!--<option value="1">会员浏览</option>-->
 				</select>
 			</div>
 		</div>
@@ -103,12 +85,7 @@
 				<textarea placeholder="请输入内容说明" required="required"  name="contentDescription" th:text="${dailyDto.contentDescription}" class="layui-textarea"></textarea>
 			</div>
 		</div>
-		<!--<div class="layui-form-item">-->
-			<!--<label class="layui-form-label">文章内容</label>-->
-			<!--<div class="layui-input-block">-->
-				<!--<textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="news_content"></textarea>-->
-			<!--</div>-->
-		<!--</div>-->
+
 		<div class="layui-form-item">
 			<label class="layui-form-label">演示地址</label>
 			<div class="layui-input-block">

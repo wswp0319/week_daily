@@ -42,11 +42,6 @@ layui.config({
     //查询
     $(".search_btn").click(function () {
         var newArray = [];
-        // if (($(".start_data").val() != '' && $(".end_data").val() == '') || ($(".start_data").val() == '' && $(".end_data").val() != '')) {
-        //     layer.msg("请输入需要完整的日期条件");
-        //     // alert(111);
-        //     return;
-        // }
 
         if (($(".search_input").val() != '') || $(".start_data").val() != '' || $(".end_data").val() != '') {
             var index = layer.msg('查询中，请稍候', {icon: 16, time: false, shade: 0.8});
@@ -60,15 +55,8 @@ layui.config({
                     url: "/getDailys",
                     type: "get",
                     dataType: "json",
-                    /**
-                     * `plan_start_date` varchar(255) DEFAULT NULL COMMENT '计划开始时间',
-                     `plan_end_date`
-                     */
                     data: {dept: dept, planStartDate: planStartDate, planEndDate: planEndDate},
                     success: function (data) {
-                        console.log(data);
-                        // console.log(data);
-                        // console.log(data.data);
                         newsData = data.data;
                         if (window.sessionStorage.getItem("addNews")) {
                             var addNews = window.sessionStorage.getItem("addNews");
@@ -105,63 +93,6 @@ layui.config({
         })
     }).resize();
 
-    // //推荐文章
-    // $(".recommend").click(function () {
-    //     var newArray = [];
-    //     if (($(".start_data").val() != '' && $(".end_data").val() == '') || ($(".start_data").val() == '' && $(".end_data").val() != '')) {
-    //         layer.msg("请输入需要完整的日期条件");
-    //         // alert(111);
-    //         return;
-    //     }
-    //     console.log();
-    //     if (($(".search_input").val() != '') || ($(".start_data").val() != '' && $(".end_data").val() != '')) {
-    //         // var index = layer.msg('查询中，请稍候', {icon: 16, time: false, shade: 0.8});
-    //         var dept = $(".search_input").val();
-    //         var planStartDate = $(".start_data").val();
-    //         var planEndDate = $(".end_data").val();
-    //
-    //         console.log("*******************"+dept + "          " + planStartDate + "         " + planEndDate);
-    //
-    //         $.ajax({
-    //             // url : "../../json/newsList.json",
-    //             url: "/download",
-    //             type: "get",
-    //             dataType: "json",
-    //             /**
-    //              * `plan_start_date` varchar(255) DEFAULT NULL COMMENT '计划开始时间',
-    //              `plan_end_date`
-    //              */
-    //             data: {dept: dept, planStartDate: planStartDate, planEndDate: planEndDate},
-    //             success: function (data) {
-    //                 // console.log(data);
-    //                 // // console.log(data);
-    //                 // // console.log(data.data);
-    //                 // newsData = data.data;
-    //                 // if(window.sessionStorage.getItem("addNews")){
-    //                 //     var addNews = window.sessionStorage.getItem("addNews");
-    //                 //     newsData = JSON.parse(addNews).concat(newsData);
-    //                 // }
-    //                 // //执行加载数据的方法
-    //                 // newsList();
-    //             }
-    //         })
-    //
-    //     }
-    //
-    // })
-    // //推荐文章
-    // $(".recommend").click(function(){
-    // 	var $checkbox = $(".news_list").find('tbody input[type="checkbox"]:not([name="show"])');
-    // 	if($checkbox.is(":checked")){
-    // 		var index = layer.msg('推荐中，请稍候',{icon: 16,time:false,shade:0.8});
-    //        setTimeout(function(){
-    //            layer.close(index);
-    // 			layer.msg("推荐成功");
-    //        },2000);
-    // 	}else{
-    // 		layer.msg("请选择需要推荐的文章");
-    // 	}
-    // })
 
     //审核文章
     $(".audit_btn").click(function () {
@@ -270,10 +201,6 @@ layui.config({
 
     //操作
     $("body").on("click", ".news_edit", function () {  //编辑
-        // layer.alert('您点击了文章编辑按钮，由于是纯静态页面，所以暂时不存在编辑内容，后期会添加，敬请谅解。。。',{icon:6, title:'文章编辑'});
-
-
-
         var _this = $(this);
         console.log("--------------");
         $.ajax({
@@ -320,10 +247,6 @@ layui.config({
                         layer.msg(result.msg);
                         return;
                     }
-                    // if (result != sessionStorage.) {
-                    //     layer.msg("不能删除他人记录");
-                    //     return;
-                    // }
                     for (var i = 0; i < newsData.length; i++) {
                         if (newsData[i].id == _this.attr("data-id")) {
                             // console.log(result);
@@ -334,12 +257,6 @@ layui.config({
                 }
                 // error: alert()
             })
-            // for(var i=0;i<newsData.length;i++){
-            //    if(newsData[i].newsId == _this.attr("data-id")){
-            // 		newsData.splice(i,1);
-            // 		newsList(newsData);
-            // 	}
-            // }
             layer.close(index);
         });
     })
@@ -371,26 +288,11 @@ layui.config({
                         + '<td>' + currData[i].planEndDate + '</td>'
                         + '<td>' + currData[i].workSchedule + '</td>'
                         + '<td>' + currData[i].demoAddress + '</td>'
-                        // if(currData[i].newsStatus == "待审核"){
-                        // 	dataHtml += '<td style="color:#f00">'+currData[i].newsStatus+'</td>';
-                        // }else{
-                        // 	dataHtml += '<td>'+currData[i].newsStatus+'</td>';
-                        // }
                         + '<td><input type="checkbox" name="show" value=' + currData[i].id + ' lay-skin="switch" lay-text="是|否" lay-filter="isShow"' + flag + '></td>'
-
-                        // +'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+currData[i].claim+'></td>'
                         + '<td>' + currData[i].planB + '</td>'
-
-
                         + '<td>' + currData[i].submitter + '</td>'
-
-                        // +'<td><input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" lay-filter="isShow"'+currData[i].isShow+'></td>'
-                        // +'<td>'+currData[i].newsTime+'</td>'
                         + '<td>'
                         + '<a class="layui-btn layui-btn-mini news_edit" data-id="' + currData[i].id + '"><i class="iconfont icon-edit"></i>编辑</a>'
-
-                        // +  '<a class="layui-btn layui-btn-normal layui-btn-mini news_collect"><i class="layui-icon">&#xe600;</i> 收藏</a>'
-                        // +  '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="'+data[i].newsId+'"><i class="layui-icon">&#xe640;</i> 删除</a>'
                         + '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="' + currData[i].id + '"><i class="layui-icon">&#xe640;</i> 删除</a>'
                         + '</td>'
                         + '</tr>';

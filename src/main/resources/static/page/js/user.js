@@ -24,11 +24,6 @@ layui.config({
 
     //添加验证规则
     form.verify({
-        // oldPwd : function(value, item){
-        //     if(value != "123456"){
-        //         return "密码错误，请重新输入！";
-        //     }
-        // },
         newPwd: function (value, item) {
             if (value.length < 6) {
                 return "密码长度不能小于6位";
@@ -144,12 +139,6 @@ layui.config({
                     alert("请求异常，请联系管理员");
                 }
             });
-
-
-            // layer.close(index);
-            // layer.msg("密码修改成功！");
-            // $(".pwd").val('');
-        // }, 500);
         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
     })
 

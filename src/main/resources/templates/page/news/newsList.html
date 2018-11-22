@@ -29,9 +29,6 @@
 				</select>
 			</div>
 
-		    <!--<div class="layui-input-inline">-->
-		    	<!--<input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">-->
-		    <!--</div>-->
             <div class="layui-input-inline">
                 <input type="text" placeholder="开始时间" name="planStartDate" class="layui-input start_data" lay-verify="required|date" onclick="layui.laydate({elem:this})">
             </div>
@@ -44,14 +41,12 @@
 		<div class="layui-inline">
 			<a class="layui-btn layui-btn-normal newsAdd_btn" href="/editDaily">添加周报</a>
 		</div>
-		<!--<div class="layui-inline">-->
-		<!--<a class="layui-btn audit_btn">审核文章</a>-->
-		<!--</div>-->
+
 		<div class="layui-inline">
 			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
 		</div>
 		<div class="layui-inline">
-			<!--<a class="layui-btn recommend" style="background-color:#5FB878" href="">导出周报</a>-->
+
 			<button class="layui-btn recommend" style="background-color:#5FB878" type="submit">导出周报</button>
 		</div>
 		</form>
@@ -72,17 +67,7 @@
 				<!--<COL WIDTH="15%">-->
 		    </colgroup>
 		    <thead>
-			<!--<th field="workResult" width="10" sortable="true">工作成果</th>-->
-			<!--<th field="submitContent" width="10">提交内容</th>-->
-			<!--<th field="contentDescription" width="10">内容说明</th>-->
-			<!--<th field="planStartDate" width="10">计划开始日期</th>-->
-			<!--<th field="planEndDate" width="10">计划完成日期</th>-->
-			<!--<th field="workSchedule" width="10">完成情况</th>-->
-			<!--<th field="demoAddress" width="10" f>过程成果或演示地址</th>-->
-			<!--<th field="claim" width="10">标准和要求</th>-->
-			<!--<th field="planB" width="10" f>未达标补救措施</th>-->
-			<!--<th field="submitter" width="10">提交人</th>-->
-			<!--<th field="remarks" width="12">备注</th>-->
+
             <tr>
             <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
             <th style="text-align:left;">工作成果</th>
@@ -97,16 +82,6 @@
             <th>提交人</th>
             <th>操作</th>
             </tr>
-                <!--<tr>-->
-					<!--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>-->
-					<!--<th style="text-align:left;">工作成功</th>-->
-					<!--<th>发布人</th>-->
-					<!--<th>审核状态</th>-->
-					<!--<th>浏览权限</th>-->
-					<!--<th>是否展示</th>-->
-					<!--<th>发布时间</th>-->
-					<!--<th>操作</th>-->
-				<!--</tr>-->
 
 		    </thead>
 		    <tbody class="news_content"></tbody>

@@ -40,5 +40,4 @@ layui.config({
         },2000);
  		return false;
  	})
-	
 })

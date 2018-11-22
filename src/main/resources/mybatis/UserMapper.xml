@@ -41,14 +41,6 @@
     select
     id id,
     username username,
---     password password,
-
-      <!--<option value="1">接口组</option>-->
-      <!--<option value="2">测试&运维组</option>-->
-      <!--<option value="3">后台组</option>-->
-      <!--<option value="4">产品组</option>-->
-      <!--<option value="5">APP组</option>-->
-      <!--<option value="6">特殊组</option>-->
     case dept
     when 1 then '接口组'
     when 2 then '测试&amp;运维组'
