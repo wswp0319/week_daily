@@ -83,9 +83,7 @@
             and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
         </if>
         and #{username}= submitter
-
         )ORDER BY
-        submitter,
         updateTime DESC
     </select>
     <select id="getDailysExcel" resultType="map">
@@ -143,8 +141,8 @@
             and DATE_FORMAT(plan_start_date,'%Y-%m-%d') &lt;= DATE_FORMAT(#{planEndDate},'%Y-%m-%d')
         </if>
         and #{username}= submitter
-        )ORDER BY
-        submitter,
+        )
+        ORDER BY
         updateTime DESC
 
     </select>
