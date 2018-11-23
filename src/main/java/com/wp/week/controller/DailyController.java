@@ -138,8 +138,8 @@ public class DailyController {
         dailyDto.setDemoAddress(demoAddress);
         dailyDto.setClaim("on".equals(claim) ? 1 : 0);
         dailyDto.setLookRole(lookRole);
-        dailyDto.setPlanB(planB.isEmpty() ? "无" : planB);
-        dailyDto.setRemarks(remarks.isEmpty() ? "无" : remarks);
+        dailyDto.setPlanB(StringUtils.isEmpty(planB) ? "无" : planB);
+        dailyDto.setRemarks(StringUtils.isEmpty(remarks) ? "无" : remarks);
 
         dailyDto.setUserId(userId);
         dailyDto.setSubmitter(username);
