@@ -9,8 +9,10 @@ public class UserDto implements Serializable {
     private String username;
 
     private String password;
+    private String sex;
 
     private Integer dept;
+
 
     private Integer rule;
 
@@ -20,6 +22,16 @@ public class UserDto implements Serializable {
 
     private Date createTime;
 
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -28,6 +40,14 @@ public class UserDto implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getUsername() {

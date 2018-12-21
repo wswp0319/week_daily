@@ -80,7 +80,11 @@ public class MainController {
             HttpServletRequest request) {
         return "page/news/newsList";
     }
-
+    @RequestMapping("/plantInfos")
+    public String plantInfos(
+            HttpServletRequest request) {
+        return "page/news/foodList";
+    }
 
     @RequestMapping("/userlists")
     public String users(

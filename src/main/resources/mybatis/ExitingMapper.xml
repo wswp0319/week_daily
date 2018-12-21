@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wp.week.mapper.ExitingMapper">
+
+	<!-- 字段-->
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selInfo" resultType="exitingDto">
+		 SELECT
+		 <include refid="sqlColumns" />
+		 FROM tb_exiting
+		 WHERE id = #{id}
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="del" parameterType="exitingDto">
+		 DELETE FROM tb_exiting
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="exitingDto" keyColumn="id" useGeneratedKeys="true">
+		 INSERT INTO tb_exiting
+ 			(
+ 			id,
+			grain_number,
+			out_num,
+			out_Time,
+			isactive,
+			remark
+ 			) 
+		 VALUES 
+ 			(
+ 			#{id},
+			#{grainNumber},
+			#{outNum},
+			#{outTime},
+			#{isactive},
+			#{remark}
+ 			) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="edit" parameterType="exitingDto">
+		 UPDATE tb_exiting
+ 		 <trim prefix="SET" suffixOverrides=","> 
+			<if test="grainNumber != null">grain_number = #{grainNumber},</if>
+			<if test="outNum != null">out_num = #{outNum},</if>
+			<if test="outTime != null">out_Time = #{outTime},</if>
+			<if test="isactive != null">isactive = #{isactive},</if>
+			<if test="remark != null">remark = #{remark},</if>
+ 		 </trim>
+		 WHERE id = #{id}
+	</update>
+
+	<sql id="sqlColumns">
+    	id id, 
+    	grain_number grainNumber, 
+    	out_num outNum, 
+    	out_Time out4ime, 
+    	isactive isactive, 
+    	remark remark    
+	</sql>
+
+	<!-- 条件-->
+	<sql id="sqlWhere">
+    	<where>
+	    	<if test="id != null"> and id = #{id}</if> 
+        	<if test="grainNumber != null"> and grain_number = #{grainNumber}</if> 
+        	<if test="outNum != null"> and out_num = #{outNum}</if> 
+        	<if test="out4ime != null"> and out_Time = #{out4ime}</if> 
+        	<if test="isactive != null"> and isactive = #{isactive}</if> 
+        	<if test="remark != null"> and remark = #{remark}</if> 
+    	</where>
+	</sql>
+
+	<select id="count" resultType="int">
+		 SELECT
+		 count(id)
+		 FROM tb_exiting
+		 <include refid="sqlWhere"/>
+	</select>
+
+	<select id="list" resultType="exitingDto">
+		 SELECT
+		 <include refid="sqlColumns"/>
+		 FROM tb_exiting
+		 <include refid="sqlWhere"/>
+	</select>
+
+	<select id="queryPage" resultType="exitingDto">
+		 SELECT
+		 <include refid="sqlColumns"/>
+		 FROM tb_exiting
+		 <include refid="sqlWhere"/>
+	</select>
+
+</mapper>

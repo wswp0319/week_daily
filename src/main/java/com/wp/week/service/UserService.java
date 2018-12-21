@@ -23,6 +23,7 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+
     public AjaxList getUserInfo(String username, String password) {
 
         Map<String, Object> map = new HashMap<>();
@@ -83,8 +84,10 @@ public class UserService {
     }
 
     public AjaxList delOneUser(Integer userId) {
-
+        System.err.println("--------------"+userId);
         userMapper.deleteByPrimaryKey(userId);
+
+
         return AjaxList.createSuccess("删除成功");
     }
 

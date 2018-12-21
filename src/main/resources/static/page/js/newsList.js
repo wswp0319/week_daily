@@ -5,7 +5,6 @@ layui.config({
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         laypage = layui.laypage,
         $ = layui.jquery;
-
     //加载页面数据
     var newsData = '';
     $.get("/getDailys", function (data) {
@@ -147,6 +146,7 @@ layui.config({
             layer.msg("请选择需要删除的文章");
         }
     })
+   
 
     //全选
     form.on('checkbox(allChoose)', function (data) {
@@ -231,6 +231,7 @@ layui.config({
         }
     })
 
+
     $("body").on("click", ".news_del", function () {  //删除
         var _this = $(this);
         //_this.parents("tr").remove();
@@ -304,7 +305,7 @@ layui.config({
         }
 
         //分页
-        var nums = 13; //每页出现的数据量
+        var nums = 10; //每页出现的数据量
         if (that) {
             newsData = that;
         }

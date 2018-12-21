@@ -28,15 +28,15 @@
 			</div>
 		</div>
 			<div class="layui-inline">
-				<label class="layui-form-label">员工分组</label>
+				<label class="layui-form-label">性别</label>
 				<div class="layui-input-block">
-					<select name="dept" class="userGrade" required="true" lay-filter="userGrade">
-						<option value="1">接口组</option>
-						<option value="2">测试&运维组</option>
-						<option value="3">后台组</option>
-						<option value="4">产品组</option>
-						<option value="5">APP组</option>
-						<option value="6">特殊组</option>
+					<select name="sex" class="userGrade" required="true" lay-filter="userGrade">
+						<option value="纯爷们">纯爷们</option>
+						<option value="软萌妹">软萌妹</option>
+						<!--<option value="3">后台组</option>-->
+						<!--<option value="4">产品组</option>-->
+						<!--<option value="5">APP组</option>-->
+						<!--<option value="6">特殊组</option>-->
 					</select>
 				</div>
 			</div>
@@ -60,6 +60,13 @@
 				    </select>
 				</div>
 		    </div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">登录名</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input userName" lay-verify="required" name="remark" required="true" placeholder="请输入备注" th:value="${userDto.remark}">
+			</div>
 		</div>
 
 		<div class="layui-form-item">

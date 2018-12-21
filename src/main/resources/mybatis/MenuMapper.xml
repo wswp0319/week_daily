@@ -22,17 +22,18 @@
         m.icon,
         m.href,
         m.create_time createTime
-        from tb_user u
-        LEFT JOIN tb_user_role ur on u.id = ur.user_id
-        LEFT JOIN tb_role r on ur.role_id = r.id
-        LEFT JOIN tb_role_menu rm on r.id = rm.role_id
-        LEFT JOIN tb_menu m on rm.menu_id = m.id
+--         from tb_user u
+--         LEFT JOIN tb_user_role ur on u.id = ur.user_id
+--         LEFT JOIN tb_role r on ur.role_id = r.id
+--         LEFT JOIN tb_role_menu rm on r.id = rm.role_id
+--         LEFT JOIN tb_menu m on rm.menu_id = m.id
+        from tb_menu m
         where 1 = 1
         <if test="rule == 1">
-            and u.id = 1
+            and m.id in (1,2,3,15,6,7,8,9,10,11,12,13,14)
         </if>
         <if test="rule == 2">
-            and u.id = 2
+            and m.id in (1,2,15,6,8,9,10,11)
         </if>
         order by m.id
     </select>

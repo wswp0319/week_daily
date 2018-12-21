@@ -17,11 +17,31 @@ public class UserVO implements Serializable {
 
     private String rule;
 
+    private String sex;
+
     private String status;
 
     private String updateTime;
 
     private String createTime;
+
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     public Integer getId() {
         return id;

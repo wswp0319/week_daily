@@ -18,9 +18,11 @@
     id id,
     username username,
     password password,
+    sex sex,
     dept dept,
     rule rule,
     status status,
+    remark remark,
     update_time updateTime,
     create_time createTime
   </sql>
@@ -50,6 +52,8 @@
     when 6 then '特殊组'
     else '黑户'
     end dept,
+    sex sex,
+    if(ISNULL(remark) ,'未填写',remark) remark,
     if(rule=1,'管理员','普通员工') rule,
     if(status =1 ,'正常使用','已封号') status,
     update_time updateTime,
@@ -71,10 +75,10 @@
   <insert id="insert" parameterType="com.wp.week.model.UserDto" >
     insert into tb_user (id, username, password, 
       dept, rule,status, update_time,
-      create_time)
+      create_time,sex,remark)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{dept,jdbcType=INTEGER}, #{rule,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},#{updateTime,jdbcType=TIMESTAMP},
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP},#{sex},#{remark})
   </insert>
   <insert id="insertSelective" parameterType="com.wp.week.model.UserDto" >
     insert into tb_user
@@ -145,6 +149,12 @@
       </if>
       <if test="rule != null" >
         rule = #{rule,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        rule = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        rule = #{remark,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
           status = #{status,jdbcType=INTEGER},

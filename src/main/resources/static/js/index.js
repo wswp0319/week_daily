@@ -267,12 +267,12 @@ layui.config({
 	//     });
 	// }
 	//判断是否处于锁屏状态(如果关闭以后则未关闭浏览器之前不再显示)
-	if(window.sessionStorage.getItem("lockcms") != "true" && window.sessionStorage.getItem("showNotice") != "true"){
-		showNotice();
-	}
-	$(".showNotice").on("click",function(){
-		showNotice();
-	})
+	// if(window.sessionStorage.getItem("lockcms") != "true" && window.sessionStorage.getItem("showNotice") != "true"){
+	// 	showNotice();
+	// }
+	// $(".showNotice").on("click",function(){
+	// 	showNotice();
+	// })
 
 	//刷新后还原打开的窗口
 	if(window.sessionStorage.getItem("menu") != null){
@@ -356,6 +356,7 @@ layui.config({
 	})
 	//关闭全部
 	$(".closePageAll").on("click",function(){
+        console.log("**************");
 		if($("#top_tabs li").length > 1){
 			$("#top_tabs li").each(function(){
 				if($(this).attr("lay-id") != ''){

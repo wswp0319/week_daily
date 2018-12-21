@@ -94,17 +94,20 @@ public class UserController {
     public String addOrUpdateUser(
             @ApiParam(name = "userId", value = "userId") @RequestParam(required = false) Integer userId,
             @ApiParam(name = "username", value = "username", required = true) @RequestParam String username,
-            @ApiParam(name = "dept", value = "dept", required = true) @RequestParam Integer dept,
+            @ApiParam(name = "sex", value = "sex", required = true) @RequestParam String sex,
             @ApiParam(name = "userGrade", value = "员工等级", required = true) @RequestParam Integer userGrade,
             @ApiParam(name = "userStatus", value = "userStatus", required = true) @RequestParam Integer userStatus,
+            @ApiParam(name = "remark", value = "remark", required = true) @RequestParam String remark,
             Model model) {
 
         UserDto userDto = new UserDto();
         userDto.setId(userId);
-        userDto.setDept(dept);
+//        userDto.setDept(dept);
+userDto.setSex(sex);
         userDto.setRule(userGrade);
         userDto.setStatus(userStatus);
         userDto.setUsername(username);
+        userDto.setRemark(remark);
 
         userService.addOrUpdateUser(userDto);
 

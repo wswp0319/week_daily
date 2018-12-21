@@ -197,7 +197,8 @@ layui.config({
                 data: {userId: _this.attr("data-id")},
                 success: function (result) {
                     console.log("*****************");
-                    layer.msg(result.msg);
+                    layer.msg(result.msg+"，请刷新页面");
+                    // location.reload();
                     return;
                 }
             });
@@ -207,6 +208,7 @@ layui.config({
     function usersList() {
         //渲染数据
         function renderDate(data, curr) {
+            console.log(data);
             var dataHtml = '';
             currData = usersData.concat().splice(curr * nums - nums, nums);
             if (currData.length != 0) {
@@ -215,10 +217,12 @@ layui.config({
                         + '<input type="hidden" name="userId" value=' + currData[i].id + ' >'
                         + '<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>'
                         + '<td>' + currData[i].username + '</td>'
-                        + '<td>' + currData[i].dept + '</td>'
+                        // + '<td>' + currData[i].dept + '</td>'
                         + '<td>' + currData[i].rule + '</td>'
+                        + '<td>' + currData[i].sex + '</td>'
                         + '<td>' + currData[i].status + '</td>'
                         + '<td>' + currData[i].updateTime + '</td>'
+                        + '<td>' + currData[i].remark + '</td>'
                         + '<td>'
                         + '<a class="layui-btn layui-btn-mini users_edit" data-id="' + currData[i].id + '"><i class="iconfont icon-edit"></i> 编辑</a>'
                         + '<a class="layui-btn layui-btn-danger layui-btn-mini users_del" data-id="' + data[i].id + '"><i class="layui-icon">&#xe640;</i> 删除</a>'
