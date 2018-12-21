@@ -7,7 +7,7 @@ layui.config({
         $ = layui.jquery;
     //加载页面数据
     var newsData = '';
-    $.get("/getPlantInfos", function (data) {
+    $.get("/getQuantitys", function (data) {
 
         var newArray = [];
         //单击首页“待审核文章”加载的信息
@@ -51,7 +51,7 @@ layui.config({
             setTimeout(function () {
                 $.ajax({
                     // url : "../../json/newsList.json",
-                    url: "/getPlantInfos",
+                    url: "/getQuantitys",
                     type: "get",
                     dataType: "json",
                     data: {dept: dept, planStartDate: planStartDate, planEndDate: planEndDate},
@@ -214,7 +214,7 @@ layui.config({
                     layer.msg(result.msg);
                     return;
                 } else {
-                    location.href = "/editPlantInfo?plantInfoId=" + _this.attr("data-id");
+                    location.href = "/editQuantity?quantityId=" + _this.attr("data-id");
                 }
             }
         });
@@ -240,9 +240,9 @@ layui.config({
 
             $.ajax({
                 type: 'post',
-                url: '/delOneplantInfo',
+                url: '/delOneQuantity',
                 dataType: 'json',
-                data: {plantInfoId: _this.attr("data-id")},
+                data: {quantityId: _this.attr("data-id")},
                 success: function (result) {
                     if (!result.success) {
                         layer.msg(result.msg);
@@ -276,46 +276,44 @@ layui.config({
                 for (var i = 0; i < currData.length; i++) {
                     // console.log(currData[i].id);
                     var flag = ""
-                    if (+currData[i].claim == '是') {
+                    if (+currData[i].claim == '1') {
                         flag = "checked";
                     }
                     /**
-
-                     id粮食ID
-                     plantno粮食编号
-                     plantname植物名称
-                     gsno所属类别
-                     prodarea产地分布
-                     ecolhabit生态习性
-                     imagepath图片路径
-                     dimencode二维码
-                     addtime发布时间
-                     modtime修改时间
-                     username发布者
-                     isstate是否发布
-                     remark备注
+                     StorageQuantity 入库量
+                     OutgoingQuantity 出库量
+                     totality 总数量
+                     difference 差数
+                     gradient 差率
+                     addtime 添加时间
+                     modtime 修改时间
+                     checker 检查人
+                     isactive 状态
+                     remark 备注
                      */
 
 
                     dataHtml += '<tr>'
                         + '<input type="hidden" name="dailyId" value=' + currData[i].id + ' >'
                         + '<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>'
-                        + '<td align="left">' + currData[i].plantNo + '</td>'
-                        + '<td>' + currData[i].plantName + '</td>'
-                        + '<td>' + currData[i].gsno + '</td>'
-                        + '<td>' + currData[i].prodarea + '</td>'
-                        + '<td>' + currData[i].ecolhabit + '</td>'
-                        + '<td><img src=\"images/userface3.jpg\" width="165" height="60" /> </td>'
-                        + '<td><img src=\"images/2616.jpg\" width="165" height="60" /> </td>'
+                        + '<td align="left">' + currData[i].inQuantity + '</td>'
+                        + '<td>' + currData[i].outQuantity + '</td>'
+                        + '<td>' + currData[i].totalQuantity + '</td>'
+                        + '<td>' + currData[i].difference + '</td>'
+                        + '<td>' + currData[i].gradient + '</td>'
+                        // + '<td><img src=\"images/userface3.jpg\" width="165" height="60" /> </td>'
+                        // + '<td><img src=\"images/2616.jpg\" width="165" height="60" /> </td>'
                         + '<td>' + currData[i].createTime + '</td>'
                         + '<td>' + currData[i].updateTime + '</td>'
-                        + '<td>' + currData[i].username + '</td>'
+                        + '<td>' + currData[i].checker + '</td>'
                         + '<td><input type="checkbox" name="show" value=' + currData[i].id + ' lay-skin="switch" lay-text="是|否" lay-filter="isShow"' + flag + '></td>'
                         + '<td>' + currData[i].remark + '</td>'
-                        // + '<td>'
-                        // + '<a class="layui-btn layui-btn-mini news_edit" data-id="' + currData[i].id + '"><i class="iconfont icon-edit"></i>编辑</a>'
-                        // + '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="' + currData[i].id + '"><i class="layui-icon">&#xe640;</i> 删除</a>'
-                        // + '</td>'
+
+
+                        + '<td>'
+                        + '<a class="layui-btn layui-btn-mini news_edit" data-id="' + currData[i].id + '"><i class="iconfont icon-edit"></i>编辑</a>'
+                        + '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="' + currData[i].id + '"><i class="layui-icon">&#xe640;</i> 删除</a>'
+                        + '</td>'
                         + '</tr>';
                 }
             } else {
@@ -325,7 +323,7 @@ layui.config({
         }
 
         //分页
-        var nums = 9; //每页出现的数据量
+        var nums = 10; //每页出现的数据量
         if (that) {
             newsData = that;
         }

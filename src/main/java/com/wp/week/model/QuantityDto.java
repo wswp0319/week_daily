@@ -28,10 +28,10 @@ public class QuantityDto implements Serializable {
 	private Integer gradient;
 
 	/****/
-	private java.util.Date createTime;
+	private String createTime;
 
 	/****/
-	private java.util.Date updateTime;
+	private String updateTime;
 
 	/****/
 	private String checker;
@@ -92,20 +92,20 @@ public class QuantityDto implements Serializable {
 		return this.gradient;
 	}
 
-	public void setCreateTime(java.util.Date createTime){
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
-	public java.util.Date getCreateTime(){
-		return this.createTime;
+	public String getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdateTime(java.util.Date updateTime){
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
-	}
-
-	public java.util.Date getUpdateTime(){
-		return this.updateTime;
 	}
 
 	public void setChecker(String checker){

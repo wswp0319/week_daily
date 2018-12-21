@@ -19,7 +19,7 @@ public class PlantInfoDto implements Serializable {
 	private String plantName;
 
 	/**类别所属**/
-	private Integer gsno;
+	private String gsno;
 
 	/**产地分布**/
 	private String prodarea;
@@ -36,10 +36,10 @@ public class PlantInfoDto implements Serializable {
 
 	private String username;
 	/****/
-	private java.util.Date createTime;
+	private String createTime;
 
 	/****/
-	private java.util.Date updateTime;
+	private String updateTime;
 
 	/**是否发布**/
 	private String isState;
@@ -80,12 +80,12 @@ public class PlantInfoDto implements Serializable {
 		return this.plantName;
 	}
 
-	public void setGsno(Integer gsno){
-		this.gsno = gsno;
+	public String getGsno() {
+		return gsno;
 	}
 
-	public Integer getGsno(){
-		return this.gsno;
+	public void setGsno(String gsno) {
+		this.gsno = gsno;
 	}
 
 	public void setProdarea(String prodarea){
@@ -120,20 +120,20 @@ public class PlantInfoDto implements Serializable {
 		return this.dimenCode;
 	}
 
-	public void setCreateTime(java.util.Date createTime){
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
-	public java.util.Date getCreateTime(){
-		return this.createTime;
+	public String getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdateTime(java.util.Date updateTime){
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
-	}
-
-	public java.util.Date getUpdateTime(){
-		return this.updateTime;
 	}
 
 	public void setIsState(String isState){

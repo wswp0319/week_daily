@@ -100,7 +100,7 @@ public class PlantInfoController {
             @ApiParam(name = "plantInfoId", value = "id") @RequestParam(required = false) Integer plantInfoId,
             @ApiParam(name = "plantNo", value = "工作成果", required = true) @RequestParam Integer plantNo,
             @ApiParam(name = "plantName", value = "提交内容", required = true) @RequestParam String plantName,
-            @ApiParam(name = "gsno", value = "内容说明", required = true) @RequestParam Integer gsno,
+            @ApiParam(name = "gsno", value = "内容说明", required = true) @RequestParam String gsno,
             @ApiParam(name = "prodarea", value = "开始时间", required = true) @RequestParam String prodarea,
             @ApiParam(name = "ecolhabit", value = "结束时间", required = true) @RequestParam String ecolhabit,
             @ApiParam(name = "imagePath", value = "标准和要求") @RequestParam(required = false) String imagePath,

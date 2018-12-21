@@ -15,9 +15,10 @@ public class ExcelUtils {
 
     private static XSSFSheet createTitle(XSSFWorkbook workbook,String deptName,int rowIndex){
         XSSFSheet sheet = null;
+        deptName = "1";
         switch (deptName){
             case "1":
-                sheet = workbook.createSheet("接口组");
+                sheet = workbook.createSheet("学习计划");
                 break;
             case "2":
                 sheet = workbook.createSheet("测试&运维组");
@@ -57,7 +58,7 @@ public class ExcelUtils {
         Row row = sheet.createRow(rowIndex++);
         Cell cell0 = row.createCell(0);
         row.setHeight((short) 400);
-        cell0.setCellValue("工作内容");
+        cell0.setCellValue("学习计划");
         cell0.setCellStyle(setBorder);
         Cell cell1 = row.createCell(1);
         cell1.setCellValue("提交内容");
@@ -160,11 +161,11 @@ public class ExcelUtils {
             }
         }
         Set<String> keySet = deptMap.keySet();
-        for(String str: keySet){
-            XSSFSheet sheet = createTitle(workbook,str,0);
+//        for(String str: keySet){
+            XSSFSheet sheet = createTitle(workbook,"1",0);
             int rowIndex = 1;
-            createCell(deptMap.get(str),sheet,workbook,rowIndex);
-        }
+            createCell(dataList,sheet,workbook,rowIndex);
+//        }
         //将excel内存对象写入文件中
         FileOutputStream fos = new FileOutputStream(file);
         workbook.write(fos);

@@ -51,11 +51,11 @@ public class PlantInfoService extends BaseServiceImpl<PlantInfoDto> {
         Integer id = PlantInfoDto.getId();
         Date date = new Date();
         if (id == null) {
-            PlantInfoDto.setCreateTime(date);
-            PlantInfoDto.setUpdateTime(date);
+            PlantInfoDto.setCreateTime(date.toString());
+            PlantInfoDto.setUpdateTime(date.toString());
             this.add(PlantInfoDto);
         } else {
-            PlantInfoDto.setUpdateTime(date);
+            PlantInfoDto.setUpdateTime(date.toString());
             this.edit(PlantInfoDto);
         }
     }

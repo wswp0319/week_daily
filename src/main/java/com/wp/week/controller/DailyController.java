@@ -208,7 +208,7 @@ public class DailyController {
 
         String date = DateUtil.getMondayDayStr(new Date()) + "-" + DateUtil.getSaturdayStr(new Date());
 
-        File file = new File("研发部每周工作计划及完成情况" + date + ".xlsx");
+        File file = new File("学习计划及完成情况" + date + ".xlsx");
 
         List<Map<String, Object>> dataList = dailyService.getDailysExcel(map);
 

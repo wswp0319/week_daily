@@ -39,7 +39,8 @@
 		    <a class="layui-btn search_btn">查询</a>
 		</div>
 		<div class="layui-inline">
-			<a class="layui-btn layui-btn-normal newsAdd_btn" href="/editDaily">添加计划</a>
+			<!--<a class="layui-btn layui-btn-normal newsAdd_btn" href="/editDaily">添加</a>-->
+			<a class="layui-btn layui-btn-normal newsAdd_btn" href="/editQuantity">添加</a>
 		</div>
 
 		<div class="layui-inline">
@@ -47,7 +48,7 @@
 		</div>
 		<div class="layui-inline">
 
-			<button class="layui-btn recommend" style="background-color:#5FB878" type="submit">导出计划</button>
+			<!--<button class="layui-btn recommend" style="background-color:#5FB878" type="submit">导出周报</button>-->
 		</div>
 		</form>
 	</blockquote>
@@ -70,17 +71,18 @@
 
             <tr>
             <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-            <th style="text-align:left;">学习计划</th>
-            <th>提交内容</th>
-            <th>内容说明</th>
-            <th>计划开始日期</th>
-            <th>计划完成日期</th>
-            <th>完成情况</th>
-            <th>演示地址</th>
-            <th>是否合格</th>
-            <th>未达标补救措施</th>
-            <th>提交人</th>
-            <th>操作</th>
+				<th>入库量</th>
+				<th>出库量</th>
+				<th>总数量</th>
+				<th>差数</th>
+				<th>差率</th>
+				<th>添加时间</th>
+				<th>修改时间</th>
+				<th>检查人</th>
+				<th>状态</th>
+				<th>备注</th>
+				<th>操作</th>
+
             </tr>
 
 		    </thead>
@@ -89,8 +91,8 @@
 	</div>
 	<div id="page"></div>
 	<script type="text/javascript" src="../../../static/layui/layui.js"></script>
-	<script type="text/javascript" src="../../../static/page/js/newsList.js"></script>
-	<script type="text/javascript" src="../../../static/page/js/newsAdd.js"></script>
+	<script type="text/javascript" src="../../../static/page/js/quantityList.js"></script>
+	<script type="text/javascript" src="../../../static/page/js/quantityAdd.js"></script>
 	<script type="text/javascript" src="../../../static/layui/lay/modules/layer.js"></script>
 	<!--<script type="text/javascript" src="../../../static/layui/lay/modules/jquery-1.10.2.min.js"></script>-->
 	<!--<script type="text/javascript" src="../../../static/layui/lay/modules/yichu.js"></script>-->
