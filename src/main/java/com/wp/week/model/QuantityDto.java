@@ -2,15 +2,17 @@ package com.wp.week.model;
 import java.io.Serializable;
 
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  **/
 @SuppressWarnings("serial")
 public class QuantityDto implements Serializable {
 
 	/****/
 	private Integer id;
+
+	private String plantId;
 
 	/**入库量**/
 	private Integer inQuantity;
@@ -42,7 +44,13 @@ public class QuantityDto implements Serializable {
 	/****/
 	private String remark;
 
+	public String getPlantId() {
+		return plantId;
+	}
 
+	public void setPlantId(String plantId) {
+		this.plantId = plantId;
+	}
 
 	public void setId(Integer id){
 		this.id = id;

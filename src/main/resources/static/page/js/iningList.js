@@ -7,7 +7,7 @@ layui.config({
         $ = layui.jquery;
     //加载页面数据
     var newsData = '';
-    $.get("/getQuantitys", function (data) {
+    $.get("/getInings", function (data) {
 
         var newArray = [];
         //单击首页“待审核文章”加载的信息
@@ -51,7 +51,7 @@ layui.config({
             setTimeout(function () {
                 $.ajax({
                     // url : "../../json/newsList.json",
-                    url: "/getQuantitys",
+                    url: "/getInings",
                     type: "get",
                     dataType: "json",
                     data: {dept: dept, planStartDate: planStartDate, planEndDate: planEndDate},
@@ -280,45 +280,47 @@ layui.config({
                         flag = "checked";
                     }
                     /**
-                     StorageQuantity 入库量
-                     OutgoingQuantity 出库量
-                     totality 总数量
-                     difference 差数
-                     gradient 差率
-                     addtime 添加时间
-                     modtime 修改时间
-                     checker 检查人
-                     isactive 状态
-                     remark 备注
+                     <th>粮食种类</th>
+                     <th>出库量</th>
+                     <th>总数量</th>
+                     <th>出库时间</th>
+                     <th>备注</th>
+                     id
+                     grainNumber
+                     outNum
+                     outTime
+                     isactive
+                     remark
+
                      */
 
 
                     dataHtml += '<tr>'
                         + '<input type="hidden" name="dailyId" value=' + currData[i].id + ' >'
                         + '<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>'
-                        + '<td align="left">' + currData[i].plantId + '</td>'
-                        + '<td align="left">' + currData[i].inQuantity + '</td>'
-                        + '<td>' + currData[i].outQuantity + '</td>'
-                        + '<td>' + currData[i].totalQuantity + '</td>'
-                        + '<td>' + currData[i].difference + '</td>'
-                        + '<td>' + currData[i].gradient + '</td>'
-                        // + '<td><img src=\"images/userface3.jpg\" width="165" height="60" /> </td>'
-                        // + '<td><img src=\"images/2616.jpg\" width="165" height="60" /> </td>'
-                        + '<td>' + currData[i].createTime + '</td>'
-                        + '<td>' + currData[i].updateTime + '</td>'
-                        + '<td>' + currData[i].checker + '</td>'
-                        + '<td><input type="checkbox" name="show" value=' + currData[i].id + ' lay-skin="switch" lay-text="是|否" lay-filter="isShow"' + flag + '></td>'
+                        + '<td align="left">' + currData[i].grainNumber + '</td>'
+                        + '<td align="left">' + currData[i].inNumber + '</td>'
+                        + '<td>' + currData[i].storageTime + '</td>'
+                        // + '<td>' + currData[i].totalQuantity + '</td>'
+                        // + '<td>' + currData[i].difference + '</td>'
+                        // + '<td>' + currData[i].gradient + '</td>'
+                        // // + '<td><img src=\"images/userface3.jpg\" width="165" height="60" /> </td>'
+                        // // + '<td><img src=\"images/2616.jpg\" width="165" height="60" /> </td>'
+                        // + '<td>' + currData[i].createTime + '</td>'
+                        // + '<td>' + currData[i].updateTime + '</td>'
+                        // + '<td>' + currData[i].checker + '</td>'
+                        // + '<td><input type="checkbox" name="show" value=' + currData[i].id + ' lay-skin="switch" lay-text="是|否" lay-filter="isShow"' + flag + '></td>'
                         + '<td>' + currData[i].remark + '</td>'
 
 
-                        + '<td>'
-                        // + '<a class="layui-btn layui-btn-mini news_edit" data-id="' + currData[i].id + '"><i class="iconfont icon-edit"></i>编辑</a>'
-                        // + '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="' + currData[i].id + '"><i class="layui-icon">&#xe640;</i> 删除</a>'
-                        + '</td>'
+                        // + '<td>'
+                        // // + '<a class="layui-btn layui-btn-mini news_edit" data-id="' + currData[i].id + '"><i class="iconfont icon-edit"></i>编辑</a>'
+                        // // + '<a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="' + currData[i].id + '"><i class="layui-icon">&#xe640;</i> 删除</a>'
+                        // + '</td>'
                         + '</tr>';
                 }
             } else {
-                dataHtml = '<tr><td colspan="12">呀,数据居然不见了,请稍后重试一下吧!</td></tr>';
+                dataHtml = '<tr><td colspan="4">呀,数据居然不见了,请稍后重试一下吧!</td></tr>';
             }
             return dataHtml;
         }

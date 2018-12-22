@@ -14,7 +14,7 @@
 </head>
 
 <body class="childrenBody">
-	<form class="layui-form" action="/addOrUpdatePlantInfo">
+	<form class="layui-form" action="/addOrUpdateQuantity">
 		<input type="hidden" name="flantInfoId" >
 		<!--plantno粮食编号-->
 		<!--plantname植物名称-->
@@ -30,92 +30,98 @@
 		<!--remark备注-->
 
 
+		<!--<div class="layui-form-item">-->
+			<!--<label class="layui-form-label">粮食编号</label>-->
+			<!--<div class="layui-input-block">-->
+				<!--<input name="workResult" required="required" type="number" class="layui-input newsName" lay-verify="required" placeholder="粮食编号" >-->
+			<!--</div>-->
+		<!--</div>-->
 		<div class="layui-form-item">
-			<label class="layui-form-label">粮食编号</label>
+			<div class="layui-inline">
+				<label class="layui-form-label">粮食种类</label>
+				<div class="layui-input-block">
+					<input checked="checked" type="checkbox" name="claim" class="tuijian" title="合格">
+					<div class="layui-input-inline">
+						<select name="plantId" lay-verify="required" lay-search="">
+							<option value="1">小麦</option>
+							<option value="2">大米</option>
+							<option value="3">棉花</option>
+							<option value="4">玉米</option>
+							<option value="5">大豆</option>
+							<option value="6">青稞</option>
+							<option value="7">马铃薯</option>
+							<option value="8">高粱</option>
+							<option value="9">谷子</option>
+							<option value="10">油菜</option>
+						</select>
+					</div>
+				</div>
+
+			</div>
+
+		<!--</div>-->
+		<!--<div class="layui-form-item">-->
+		<!--<div class="layui-inline">-->
+			<!--<label class="layui-form-label">开始时间</label>-->
+			<!--<div class="layui-input-inline">-->
+				<!--<input type="text" class="layui-input newsTime" required="required"  name="planStartDate" lay-verify="required|date"  onclick="layui.laydate({elem:this})">-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--<div class="layui-inline">-->
+			<!--<label class="layui-form-label">完成时间</label>-->
+			<!--<div class="layui-input-inline">-->
+				<!--<input type="text" class="layui-input newsTime" required="required"  name="planEndDate" lay-verify="required|date"  onclick="layui.laydate({elem:this})">-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--</div>-->
+		<!--<div class="layui-form-item">-->
+		<!--<div class="layui-inline">-->
+			<!--<label class="layui-form-label">浏览权限</label>-->
+			<!--<div class="layui-input-inline">-->
+				<!--<select name="lookRole" class="newsLook" lay-filter="browseLook">-->
+					<!--<option value="2">对所有人开放</option>-->
+					<!--<option value="1">对管理员开放</option>-->
+				<!--</select>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--</div>-->
+
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">入库量</label>
 			<div class="layui-input-block">
-				<input name="workResult" required="required" type="number" class="layui-input newsName" lay-verify="required" placeholder="粮食编号" >
+				<input type="number" name="inQuantity" required="required"  class="layui-input"  placeholder="请输入入库量">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">出库量</label>
+			<div class="layui-input-block">
+				<input type="number" name="outQuantity" required="required"  class="layui-input"  placeholder="请输入出库量">
 			</div>
 		</div>
 		<!--<div class="layui-form-item">-->
-			<!--<div class="layui-inline">-->
-				<!--<label class="layui-form-label">标准要求</label>-->
-				<!--<div class="layui-input-block">-->
-					<!--<input checked="checked" type="checkbox" name="claim" class="tuijian" title="合格">-->
-					<!--<div class="layui-input-inline">-->
-						<!--<select name="workSchedule" lay-verify="required" lay-search="">-->
-							<!--<option value="100%">100%</option>-->
-							<!--<option value="50%">50%</option>-->
-							<!--<option value="90%">90%</option>-->
-							<!--<option value="80%">80%</option>-->
-							<!--<option value="70%">70%</option>-->
-							<!--<option value="60%">60%</option>-->
-							<!--<option value="40%">40%</option>-->
-							<!--<option value="30%">30%</option>-->
-							<!--<option value="20%">20%</option>-->
-							<!--<option value="10%">10%</option>-->
-						<!--</select>-->
-					<!--</div>-->
-				<!--</div>-->
-
+			<!--<label class="layui-form-label">内容说明</label>-->
+			<!--<div class="layui-input-block">-->
+				<!--<textarea placeholder="请输入内容说明" required="required"  name="contentDescription"  class="layui-textarea"></textarea>-->
 			<!--</div>-->
-
 		<!--</div>-->
-		<div class="layui-form-item">
-		<div class="layui-inline">
-			<label class="layui-form-label">开始时间</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input newsTime" required="required"  name="planStartDate" lay-verify="required|date"  onclick="layui.laydate({elem:this})">
-			</div>
-		</div>
-		<div class="layui-inline">
-			<label class="layui-form-label">完成时间</label>
-			<div class="layui-input-inline">
-				<input type="text" class="layui-input newsTime" required="required"  name="planEndDate" lay-verify="required|date"  onclick="layui.laydate({elem:this})">
-			</div>
-		</div>
-		</div>
-		<div class="layui-form-item">
-		<div class="layui-inline">
-			<label class="layui-form-label">浏览权限</label>
-			<div class="layui-input-inline">
-				<select name="lookRole" class="newsLook" lay-filter="browseLook">
-					<option value="2">对所有人开放</option>
-					<option value="1">对管理员开放</option>
-				</select>
-			</div>
-		</div>
-		</div>
 
-
-		<div class="layui-form-item">
-			<label class="layui-form-label">提交内容</label>
-			<div class="layui-input-block">
-				<input type="text" name="submitContent" required="required"  class="layui-input"  placeholder="请输入文章提交内容">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">内容说明</label>
-			<div class="layui-input-block">
-				<textarea placeholder="请输入内容说明" required="required"  name="contentDescription"  class="layui-textarea"></textarea>
-			</div>
-		</div>
-
-		<div class="layui-form-item">
-			<label class="layui-form-label">演示地址</label>
-			<div class="layui-input-block">
-				<input type="text" name="demoAddress" required="required"  class="layui-input"  placeholder="请输入文章演示地址">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">补救措施</label>
-			<div class="layui-input-block">
-				<input type="text" name="planB" class="layui-input"  placeholder="请输入">
-			</div>
-		</div>
+		<!--<div class="layui-form-item">-->
+			<!--<label class="layui-form-label">演示地址</label>-->
+			<!--<div class="layui-input-block">-->
+				<!--<input type="number" name="demoAddress" required="required"  class="layui-input"  placeholder="请输入文章演示地址">-->
+			<!--</div>-->
+		<!--</div>-->
+		<!--<div class="layui-form-item">-->
+			<!--<label class="layui-form-label">补救措施</label>-->
+			<!--<div class="layui-input-block">-->
+				<!--<input type="text" name="planB" class="layui-input"  placeholder="请输入">-->
+			<!--</div>-->
+		<!--</div>-->
 		<div class="layui-form-item">
 			<label class="layui-form-label">备注</label>
 			<div class="layui-input-block">
-				<input type="text" name="remarks" class="layui-input"   placeholder="请输入文章备注">
+				<input type="text" name="remark" class="layui-input"   placeholder="请输入备注">
 			</div>
 		</div>
 
@@ -129,6 +135,6 @@
 		</div>
 	</form>
 	<script type="text/javascript" src="../../../static/layui/layui.js"></script>
-	<script type="text/javascript" src="../../../static/page/js/newsAdd.js"></script>
+	<script type="text/javascript" src="../../../static/page/js/quantityAdd.js"></script>
 </body>
 </html>

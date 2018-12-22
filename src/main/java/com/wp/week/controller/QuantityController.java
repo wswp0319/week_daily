@@ -1,6 +1,10 @@
 package com.wp.week.controller;
 
 import com.wordnik.swagger.annotations.ApiParam;
+import com.wp.week.mapper.ExitingMapper;
+import com.wp.week.mapper.IningMapper;
+import com.wp.week.model.ExitingDto;
+import com.wp.week.model.IningDto;
 import com.wp.week.model.QuantityDto;
 import com.wp.week.service.quantityService;
 import com.wp.week.utils.AjaxList;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +28,6 @@ public class QuantityController {
     private quantityService quantityService;
 
     /**
-     *
      * @param request
      * @return
      */
@@ -74,7 +78,7 @@ public class QuantityController {
     }
 
 
-//    private Integer id;
+    //    private Integer id;
 //    /**粮食编号**/
 //    private Integer plantNo;
 //    /**植物名称**/
@@ -95,37 +99,63 @@ public class QuantityController {
 //    private String isState;
 //    /****/
 //    private String remark;
+    @Autowired
+    private ExitingMapper<ExitingDto> exitingMapper;
 
-    @RequestMapping("/addOrUpdatequantity")
+    @Autowired
+    private IningMapper<IningDto> iningMapper;
+
+
+    @RequestMapping("/addOrUpdateQuantity")
     public String addOrUpdatequantity(
-            @ApiParam(name = "quantityId", value = "id") @RequestParam(required = false) Integer quantityId,
-            @ApiParam(name = "checker", value = "工作成果", required = true) @RequestParam String checker,
-            @ApiParam(name = "difference", value = "提交内容", required = true) @RequestParam Integer difference,
-            @ApiParam(name = "gradient", value = "内容说明", required = true) @RequestParam Integer gradient,
-            @ApiParam(name = "inQuantity", value = "开始时间", required = true) @RequestParam Integer inQuantity,
-            @ApiParam(name = "outQuantity", value = "结束时间", required = true) @RequestParam Integer outQuantity,
-            @ApiParam(name = "totalQuantity", value = "结束时间", required = true) @RequestParam Integer totalQuantity,
-            @ApiParam(name = "isActive", value = "标准和要求") @RequestParam(required = false) String isActive,
-            @ApiParam(name = "remark", value = "查看权限") @RequestParam(required = false) String remark,
-            @ApiParam(name = "totalQuantity", value = "补救措施") @RequestParam(required = false) String isState,
+            @ApiParam(name = "plantId", value = "id") @RequestParam(required = false) Integer plantId,
+
+            @ApiParam(name = "inQuantity", value = "ru", required = true) @RequestParam Integer inQuantity,
+            @ApiParam(name = "outQuantity", value = "chu", required = true) @RequestParam Integer outQuantity,
+
+            @ApiParam(name = "remark", value = "beizhu") @RequestParam(required = false) String remark,
             HttpServletRequest request,
             Model model) {
+
+
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
 
         QuantityDto quantityDto = new QuantityDto();
-        quantityDto.setId(quantityId);
-        quantityDto.setChecker(checker);
-        quantityDto.setDifference(difference);
-        quantityDto.setGradient(gradient);
-        quantityDto.setInQuantity(inQuantity);
-        quantityDto.setIsActive(isActive);
-        quantityDto.setOutQuantity(outQuantity);
-        quantityDto.setRemark(remark);
-        quantityDto.setTotalQuantity(totalQuantity);
-        quantityDto.setRemark(remark);
+        Map<String, Object> map = new HashMap<>();
+        map.put("plantId",plantId);
 
-        quantityService.addOrUpdate(quantityDto);
+        AjaxList one = quantityService.findOne(map);
+        if (!one.isSuccess()) {
+            return null;
+        }
+
+        QuantityDto tyDto = (QuantityDto) one.getData();
+        tyDto.setId(plantId);
+        tyDto.setInQuantity(tyDto.getInQuantity() + inQuantity);
+        tyDto.setOutQuantity(tyDto.getOutQuantity()+outQuantity);
+        tyDto.setTotalQuantity(tyDto.getTotalQuantity()+inQuantity-outQuantity);
+
+
+        //出库
+        ExitingDto exitingDto = new ExitingDto();
+        exitingDto.setGrainNumber(plantId.toString());
+        exitingDto.setOutNum(outQuantity);
+        exitingDto.setOutTime(new Date());
+        exitingDto.setRemark("出库");
+        exitingDto.setIsactive("是");
+        exitingMapper.add(exitingDto);
+
+        //入库
+        IningDto iningDto = new IningDto();
+        iningDto.setGrainNumber(plantId.toString());
+        iningDto.setInNumber(inQuantity);
+        iningDto.setStorageTime(new Date());
+        iningDto.setRemark("入库");
+        iningMapper.add(iningDto);
+
+        tyDto.setPlantId(plantId.toString());
+        quantityService.addOrUpdate(tyDto);
 
         return "page/news/quantityList";
     }

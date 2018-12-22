@@ -13,7 +13,7 @@ public class ExitingDto implements Serializable {
 	private Integer id;
 
 	/**粮食编号**/
-	private Integer grainNumber;
+	private String grainNumber;
 
 	/**出库数量**/
 	private Integer outNum;
@@ -37,12 +37,12 @@ public class ExitingDto implements Serializable {
 		return this.id;
 	}
 
-	public void setGrainNumber(Integer grainNumber){
-		this.grainNumber = grainNumber;
+	public String getGrainNumber() {
+		return grainNumber;
 	}
 
-	public Integer getGrainNumber(){
-		return this.grainNumber;
+	public void setGrainNumber(String grainNumber) {
+		this.grainNumber = grainNumber;
 	}
 
 	public void setOutNum(Integer outNum){

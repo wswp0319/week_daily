@@ -57,7 +57,7 @@
     	id id, 
     	grain_number grainNumber, 
     	out_num outNum, 
-    	out_Time out4ime, 
+    	out_Time outTime,
     	isactive isactive, 
     	remark remark    
 	</sql>
@@ -83,8 +83,28 @@
 
 	<select id="list" resultType="exitingDto">
 		 SELECT
-		 <include refid="sqlColumns"/>
-		 FROM tb_exiting
+		id id,
+-- 		grain_number grainNumber,
+-- 		id id,
+		case grain_number
+		when 1 then '小麦'
+		when 2 then '大米'
+		when 3 then '棉花'
+		when 4 then '玉米'
+		when 5 then '大豆'
+		when 6 then '青稞'
+		when 7 then '马铃薯'
+		when 8 then '高粱'
+		when 9 then '谷子'
+		when 10 then '油菜'
+
+		end grainNumber,
+
+		out_num outNum,
+		out_Time outTime,
+		isactive isactive,
+		remark remark
+		FROM tb_exiting
 		 <include refid="sqlWhere"/>
 	</select>
 

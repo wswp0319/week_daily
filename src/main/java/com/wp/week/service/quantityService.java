@@ -55,7 +55,7 @@ public class quantityService extends BaseServiceImpl<QuantityDto> {
             quantityDto.setUpdateTime(date.toString());
             this.add(quantityDto);
         } else {
-            quantityDto.setUpdateTime(date.toString());
+//            quantityDto.setUpdateTime(date.toString());
             this.edit(quantityDto);
         }
     }
