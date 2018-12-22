@@ -1,14 +1,14 @@
 {
-    "cmsName": "后台管理模版",
+    "cmsName": "智慧粮仓系统",
     "version": "v1.0.1",
-    "author": "天妒英才啊",
+    "author": "Molly",
     "homePage": "page/index.html",
     "server": "windows",
     "dataBase": "MySql5.7",
     "maxUpload": "2M",
     "userRights": "总管理员",
-    "description": "周报系统",
-    "powerby": "环球名车&&环球出行 @2018 天妒英才啊",
+    "description": "智慧粮仓系统",
+    "powerby": "@2018 Molly",
     "record": "京ICP备14040xxx号-1",
-    "keywords": "springboot，thymeleaf，html5，layui"
+    "keywords": ""
 }

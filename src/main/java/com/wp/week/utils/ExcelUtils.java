@@ -151,15 +151,15 @@ public class ExcelUtils {
     public static void writeDataToFile(File file, List<Map<String, Object>> dataList) throws Exception {
         XSSFWorkbook workbook = new XSSFWorkbook();
         Map<String, List<Map<String, Object>>> deptMap=new HashMap<>();
-        for(Map<String, Object> map :dataList){
-            if(deptMap.containsKey(map.get("dept").toString())){
-                deptMap.get(map.get("dept").toString()).add(map);
-            }else{
-                List<Map<String, Object>> list=new LinkedList<>();
-                list.add(map);
-                deptMap.put(String.valueOf(map.get("dept")),list);
-            }
-        }
+//        for(Map<String, Object> map :dataList){
+//            if(deptMap.containsKey(map.get("dept").toString())){
+//                deptMap.get(map.get("dept").toString()).add(map);
+//            }else{
+//                List<Map<String, Object>> list=new LinkedList<>();
+//                list.add(map);
+//                deptMap.put(String.valueOf(map.get("dept")),list);
+//            }
+//        }
         Set<String> keySet = deptMap.keySet();
 //        for(String str: keySet){
             XSSFSheet sheet = createTitle(workbook,"1",0);
